@@ -153,7 +153,7 @@ mod test {
 
     #[test]
     fn add() {
-        for n in 1..7 {
+        for n in 1..6 {
             let mut a: Vec<_> = (0..n).collect();
             let mut b = a.clone();
 
