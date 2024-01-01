@@ -1,9 +1,11 @@
 use futures::executor::block_on;
 use futures::future::join_all;
+use num::bigint::BigInt;
 use seaweed;
 use seaweed::{solve_one_infty, AffinePermutation};
 use std::fs::File;
 use std::io::Read;
+use num::One;
 
 use zip::ZipArchive;
 
@@ -15,7 +17,7 @@ async fn periodic_lcs(a: String, n: usize, b: String, m: i128) -> i128 {
 
     let repeated_braid = &braid * n;
 
-    let ans = repeated_braid.lcs_repeat(m);
+    let ans = repeated_braid.lcs_repeat(&m);
 
     assert_eq!(
         ans,
@@ -84,4 +86,20 @@ fn tests_from_archive() -> std::io::Result<()> {
     );
 
     Ok(())
+}
+
+#[test]
+fn test_period() {
+    assert_eq!(AffinePermutation::<isize>::id(10).braid_period(), 1);
+    assert_eq!(
+        solve_one_infty::<i128, _>(b"A", b"ABABAB").braid_period(),
+        2
+    );
+}
+
+#[test]
+fn test_bigint() {
+    let braid: AffinePermutation<BigInt> = solve_one_infty(b"ABC", b"ABABAB");
+
+    assert_eq!((&braid * 2u8).lcs_repeat(&BigInt::one()), 4.into());
 }

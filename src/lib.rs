@@ -1,5 +1,5 @@
 use num::integer::div_rem;
-use num::traits::{Euclid, NumAssign, RefNum};
+use num::traits::{Euclid, NumAssignRef, NumRef};
 use num::{FromPrimitive, Integer, Signed, ToPrimitive};
 use std::fmt::Debug;
 use std::iter::{IntoIterator, Sum};
@@ -12,14 +12,14 @@ use permutation::Permutation;
 mod permutation;
 
 pub trait AffineIndex:
-    Signed + RefNum<Self> + NumAssign + Debug + FromPrimitive + ToPrimitive + Clone + Ord + Euclid + Sum
+    Signed + NumRef + NumAssignRef + Debug + FromPrimitive + ToPrimitive + Clone + Ord + Euclid + Sum
 {
 }
 
 impl<
         S: Signed
-            + RefNum<Self>
-            + NumAssign
+            + NumRef
+            + NumAssignRef
             + Debug
             + FromPrimitive
             + ToPrimitive
@@ -39,7 +39,7 @@ pub struct AffinePermutation<S: AffineIndex> {
 impl<S: AffineIndex> AffinePermutation<S> {
     fn is_valid(&self) -> bool {
         let mut tmp = self.perm.clone();
-        tmp.sort();
+        tmp.sort_unstable();
         for i in (0..tmp.len()).skip(1) {
             if tmp[i - 1] == tmp[i] {
                 return false;
@@ -64,34 +64,75 @@ impl<S: AffineIndex> AffinePermutation<S> {
         self.perm.len()
     }
 
+    pub fn braid_period(&self) -> usize {
+        let mut z = vec![0; self.len()];
+
+        let mut l = 0;
+        let mut r = 0;
+
+        let get = |i| self[i].clone() - S::from_usize(i).unwrap();
+
+        for i in 1..self.len() {
+            if i < r {
+                z[i] = (r - i).min(z[i - l]);
+            }
+            while i + z[i] < self.len() && get(z[i]) == get(i + z[i]) {
+                z[i] += 1;
+            }
+
+            if i + z[i] > r {
+                l = i;
+                r = i + z[i];
+            }
+
+            if i + z[i] == self.len() && self.len() % i == 0 {
+                return i;
+            }
+        }
+
+        self.len()
+    }
+
+    pub fn truncate_to_braid_period(&mut self) {
+        self.perm.truncate(self.braid_period());
+    }
+
+    pub fn shrink_to_fit(&mut self) {
+        self.perm.shrink_to_fit();
+    }
+
     fn len_as_s(&self) -> S {
         S::from_usize(self.len()).unwrap()
     }
 
-    fn period(&self, value: S) -> S {
+    fn element_period(&self, value: &S) -> S {
         (S::from_usize(self.len() - 1).unwrap() - value).div_euclid(&self.len_as_s())
     }
 
-    fn period_at(&self, index: usize) -> S {
-        self.period(self.perm[index].clone())
+    fn element_period_at(&self, index: usize) -> S {
+        self.element_period(&self.perm[index])
     }
 
-    pub fn lcs_repeat(&self, repetitions: S) -> S {
-        (0..self.len())
-            .map(|index| repetitions.clone().min(self.period_at(index)))
-            .sum::<S>()
+    pub fn lcs_repeat(&self, repetitions: &S) -> S {
+        let mut ans = S::zero();
+
+        for period in self.perm.iter().map(|element| self.element_period(element)) {
+            ans += repetitions.min(&period);
+        }
+
+        ans
     }
 
     pub fn recip(&self) -> AffinePermutation<S> {
         let mut perm = vec![S::zero(); self.len()];
 
         for i in 0..self.len() {
-            let p = self.period_at(i);
+            let p = self.element_period_at(i);
             let shift = p * self.len_as_s();
 
-            let val = S::from_usize(i).unwrap() + shift.clone();
+            let val = S::from_usize(i).unwrap() + &shift;
 
-            perm[(self.perm[i].clone() + shift).to_usize().unwrap()] = val;
+            perm[(shift + &self.perm[i]).to_usize().unwrap()] = val;
         }
 
         AffinePermutation { perm }
@@ -111,7 +152,7 @@ impl<S: AffineIndex> AffinePermutation<S> {
 
     fn ends(&self) -> Vec<S> {
         let mut ans = self.perm.clone();
-        ans.sort();
+        ans.sort_unstable();
 
         ans
     }
@@ -126,8 +167,8 @@ impl<S: AffineIndex + Integer> AffinePermutation<S> {
         let ri = div;
 
         (0..prefix)
-            .map(|index| le.clone().min(self.period_at(index)))
-            .chain((prefix..self.len()).map(|index| ri.clone().min(self.period_at(index))))
+            .map(|index| le.clone().min(self.element_period_at(index)))
+            .chain((prefix..self.len()).map(|index| ri.clone().min(self.element_period_at(index))))
             .sum::<S>()
     }
 }
@@ -141,23 +182,23 @@ impl<S: AffineIndex> Index<usize> for AffinePermutation<S> {
 }
 
 pub fn solve_one_infty<'a, S: AffineIndex, T: PartialEq + 'a>(
-    a: impl IntoIterator<Item = &'a T>,
-    b: &[T],
+    vertical: impl IntoIterator<Item = &'a T>,
+    repeating: &[T],
 ) -> AffinePermutation<S> {
-    let mut perm: AffinePermutation<S> = AffinePermutation::id(b.len());
+    let mut perm: AffinePermutation<S> = AffinePermutation::<S>::id(repeating.len());
 
-    for ch in a.into_iter() {
-        if let Some((mut pos, _val)) = b.iter().enumerate().find(|(_ind, val)| ch.eq(val)) {
+    for ch in vertical.into_iter() {
+        if let Some((mut pos, _val)) = repeating.iter().enumerate().find(|(_ind, val)| ch.eq(val)) {
             let mut horizontal = perm[pos].clone();
 
-            for _i in 0..b.len() {
+            for _i in 0..repeating.len() {
                 pos += 1;
-                if pos == b.len() {
+                if pos == repeating.len() {
                     pos = 0;
-                    horizontal -= S::from_usize(b.len()).unwrap();
+                    horizontal -= S::from_usize(repeating.len()).unwrap();
                 }
 
-                if b[pos] == *ch || horizontal > perm[pos] {
+                if repeating[pos] == *ch || horizontal > perm[pos] {
                     swap(&mut horizontal, &mut perm.perm[pos]);
                 }
             }
@@ -184,7 +225,7 @@ impl<S: AffineIndex, U: Integer + FromPrimitive> Mul<U> for &AffinePermutation<S
 
     fn mul(self, rhs: U) -> Self::Output {
         if rhs.is_zero() {
-            AffinePermutation::id(self.len())
+            AffinePermutation::<S>::id(self.len())
         } else if rhs.is_one() {
             self.clone()
         } else {
@@ -226,7 +267,7 @@ impl<'a, S: AffineIndex> Add<&AffinePermutation<S>> for &'a AffinePermutation<S>
             let from = starts[c[rb[i]]].clone();
             let to = ends[rb[i]].clone();
 
-            let ind = to.rem_euclid(&S::from_usize(ans.len()).unwrap());
+            let ind = (&to).rem_euclid(&S::from_usize(ans.len()).unwrap());
             let shift = to - &ind;
             let ind = ind.to_usize().unwrap();
 
