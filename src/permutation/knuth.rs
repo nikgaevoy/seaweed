@@ -2,8 +2,9 @@ use std::ops::Index;
 
 use super::Permutation;
 
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Default, Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
-pub struct Core(Vec<Vec<usize>>);
+pub(crate) struct Core(Vec<Vec<usize>>);
 
 impl Core {
     pub fn first(&self) -> Option<&Vec<usize>> {

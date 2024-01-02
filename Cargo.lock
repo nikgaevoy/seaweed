@@ -897,6 +897,7 @@ dependencies = [
  "async-std",
  "futures",
  "num",
+ "serde",
  "zip",
 ]
 

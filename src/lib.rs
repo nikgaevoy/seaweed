@@ -31,6 +31,7 @@ impl<
 {
 }
 
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Default, Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct AffinePermutation<S: AffineIndex> {
     perm: Vec<S>,

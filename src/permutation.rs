@@ -9,6 +9,7 @@ mod knuth;
 mod recursive_steady_ant;
 mod steady_ant;
 
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Default, Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct Permutation {
     perm: Vec<usize>,
@@ -69,6 +70,10 @@ impl Permutation {
 
     pub fn into_vec(self) -> Vec<usize> {
         self.perm
+    }
+
+    pub fn swap(&mut self, a: usize, b: usize) {
+        self.perm.swap(a, b);
     }
 
     pub fn recip(&self) -> Self {
