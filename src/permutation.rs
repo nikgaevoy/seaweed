@@ -64,8 +64,20 @@ impl Permutation {
         self.perm.len()
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.perm.is_empty()
+    }
+
     pub fn iter(&self) -> Iter<'_, usize> {
         self.perm.iter()
+    }
+
+    pub fn as_vec(&self) -> &Vec<usize> {
+        &self.perm
+    }
+
+    pub fn as_slice(&self) -> &[usize] {
+        &self.perm
     }
 
     pub fn into_vec(self) -> Vec<usize> {
