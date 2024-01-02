@@ -1,4 +1,6 @@
-use std::ops::Index;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::ops::Index;
 
 use super::Permutation;
 

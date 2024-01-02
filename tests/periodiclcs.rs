@@ -1,16 +1,15 @@
 use futures::executor::block_on;
 use futures::future::join_all;
 use num::bigint::BigInt;
-use seaweed;
-use seaweed::{solve_one_infty, AffinePermutation};
+use num::One;
+use seaweed::{build_affine_permutation, AffinePermutation};
 use std::fs::File;
 use std::io::Read;
-use num::One;
 
 use zip::ZipArchive;
 
 async fn periodic_lcs(a: String, n: usize, b: String, m: i128) -> i128 {
-    let braid: AffinePermutation<i128> = solve_one_infty(
+    let braid: AffinePermutation<i128> = build_affine_permutation(
         &a.chars().collect::<Vec<_>>(),
         &b.chars().collect::<Vec<_>>(),
     );
@@ -34,7 +33,7 @@ fn tests_from_archive() -> std::io::Result<()> {
 
     let mut names: Vec<_> = zip
         .file_names()
-        .filter(|s| s.chars().last() != Some('/'))
+        .filter(|s| !s.ends_with('/'))
         .map(|s| s.to_string())
         .collect();
     names.sort_unstable();
@@ -90,16 +89,16 @@ fn tests_from_archive() -> std::io::Result<()> {
 
 #[test]
 fn test_period() {
-    assert_eq!(AffinePermutation::<isize>::id(10).braid_period(), 1);
+    assert_eq!(AffinePermutation::<isize>::id(10).period(), 1);
     assert_eq!(
-        solve_one_infty::<i128, _>(b"A", b"ABABAB").braid_period(),
+        build_affine_permutation::<i128, _>(b"A", b"ABABAB").period(),
         2
     );
 }
 
 #[test]
 fn test_bigint() {
-    let braid: AffinePermutation<BigInt> = solve_one_infty(b"ABC", b"ABABAB");
+    let braid: AffinePermutation<BigInt> = build_affine_permutation(b"ABC", b"ABABAB");
 
     assert_eq!((&braid * 2u8).lcs_repeat(&BigInt::one()), 4.into());
 }

@@ -1,13 +1,19 @@
+#![no_std]
+
+extern crate alloc;
+
+use alloc::vec;
+use alloc::vec::Vec;
+use core::fmt::Debug;
+use core::iter::{IntoIterator, Sum};
+use core::mem::replace;
+use core::mem::swap;
+use core::ops::{Add, Index, Mul};
 use num::integer::div_rem;
 use num::traits::{Euclid, NumAssignRef, NumRef};
 use num::{FromPrimitive, Integer, Signed, ToPrimitive};
-use std::fmt::Debug;
-use std::iter::{IntoIterator, Sum};
-use std::mem::replace;
-use std::mem::swap;
-use std::ops::{Add, Index, Mul};
 
-use permutation::Permutation;
+pub use permutation::Permutation;
 
 mod permutation;
 
@@ -77,7 +83,18 @@ impl<S: AffineIndex> AffinePermutation<S> {
         self.perm.len()
     }
 
-    pub fn braid_period(&self) -> usize {
+    /// Computes smallest period of an affine permutation.
+    /// Note that this is different from `len` because the period could be repeated several times.
+    /// Works in linear time.
+    ///
+    /// # Examples
+    /// ```
+    /// # use seaweed::AffinePermutation;
+    /// # fn main() {
+    /// assert_eq!(AffinePermutation::<isize>::id(10).period(), 1);
+    /// # }
+    /// ```
+    pub fn period(&self) -> usize {
         let mut z = vec![0; self.len()];
 
         let mut l = 0;
@@ -106,8 +123,8 @@ impl<S: AffineIndex> AffinePermutation<S> {
         self.len()
     }
 
-    pub fn truncate_to_braid_period(&mut self) {
-        self.perm.truncate(self.braid_period());
+    pub fn truncate_to_period(&mut self) {
+        self.perm.truncate(self.period());
     }
 
     pub fn shrink_to_fit(&mut self) {
@@ -136,6 +153,7 @@ impl<S: AffineIndex> AffinePermutation<S> {
         ans
     }
 
+    /// Construct inverse permutation.
     pub fn recip(&self) -> AffinePermutation<S> {
         let mut perm = vec![S::zero(); self.len()];
 
@@ -151,6 +169,16 @@ impl<S: AffineIndex> AffinePermutation<S> {
         AffinePermutation { perm }
     }
 
+    /// Build an equivalent permutation by repeating the period given number of times.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use seaweed::AffinePermutation;
+    /// # fn repeat_test() {
+    /// assert_eq!(AffinePermutation::<isize>::id(3).repeat(2).len(), 6);
+    /// # }
+    /// ```
     pub fn repeat(&self, times: usize) -> Self {
         Self {
             perm: (0..times)
@@ -194,7 +222,7 @@ impl<S: AffineIndex> Index<usize> for AffinePermutation<S> {
     }
 }
 
-pub fn solve_one_infty<'a, S: AffineIndex, T: PartialEq + 'a>(
+pub fn build_affine_permutation<'a, S: AffineIndex, T: PartialEq + 'a>(
     vertical: impl IntoIterator<Item = &'a T>,
     repeating: &[T],
 ) -> AffinePermutation<S> {
@@ -241,14 +269,12 @@ impl<S: AffineIndex, U: Integer + FromPrimitive> Mul<U> for &AffinePermutation<S
             AffinePermutation::<S>::id(self.len())
         } else if rhs.is_one() {
             self.clone()
+        } else if rhs.is_odd() {
+            &(self * (rhs - U::one())) + self
         } else {
-            if rhs.is_odd() {
-                &(self * (rhs - U::one())) + self
-            } else {
-                let half = self * (rhs / U::from_u8(2).unwrap());
+            let half = self * (rhs / U::from_u8(2).unwrap());
 
-                &half + &half
-            }
+            &half + &half
         }
     }
 }
@@ -280,7 +306,7 @@ impl<'a, S: AffineIndex> Add<&AffinePermutation<S>> for &'a AffinePermutation<S>
             let from = starts[c[rb[i]]].clone();
             let to = ends[rb[i]].clone();
 
-            let ind = (&to).rem_euclid(&S::from_usize(ans.len()).unwrap());
+            let ind = to.rem_euclid(&S::from_usize(ans.len()).unwrap());
             let shift = to - &ind;
             let ind = ind.to_usize().unwrap();
 

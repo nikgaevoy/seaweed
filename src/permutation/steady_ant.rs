@@ -1,4 +1,6 @@
 use super::Permutation;
+use alloc::vec;
+use alloc::vec::Vec;
 
 pub fn steady_ant(a: &Permutation, b: &Permutation) -> Permutation {
     assert_eq!(a.len(), b.len());

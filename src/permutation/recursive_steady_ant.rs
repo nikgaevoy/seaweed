@@ -1,6 +1,8 @@
-use std::iter::FromIterator;
-use std::ops::Index;
-use std::slice::Iter;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::iter::FromIterator;
+use core::ops::Index;
+use core::slice::Iter;
 
 use super::Permutation;
 
@@ -81,10 +83,7 @@ fn split(recip: &Permutation) -> (Permutation, Permutation) {
         }
     }
 
-    (
-        Permutation { perm: le },
-        Permutation { perm: ri },
-    )
+    (Permutation { perm: le }, Permutation { perm: ri })
 }
 
 fn color_cols(perm: &Permutation) -> (Vec<usize>, Vec<usize>) {
@@ -118,7 +117,7 @@ pub fn recursive_steady_ant(a: &Permutation, b: &Permutation) -> Permutation {
 
     let (red_cols, blue_cols) = color_cols(b);
 
-    let (ar_red, ar_blue) = split(&a);
+    let (ar_red, ar_blue) = split(a);
     let (b_red, b_blue) = split(&br);
 
     let red = &ar_red.recip() + &b_red;

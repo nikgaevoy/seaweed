@@ -1,6 +1,8 @@
-use std::iter::{FromIterator, IntoIterator};
-use std::ops::{Add, Index};
-use std::slice::Iter;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::iter::{FromIterator, IntoIterator};
+use core::ops::{Add, Index};
+use core::slice::Iter;
 
 use self::recursive_steady_ant::recursive_steady_ant;
 use self::steady_ant::steady_ant;
@@ -49,7 +51,7 @@ impl<'a> IntoIterator for &'a Permutation {
     type IntoIter = <&'a Vec<usize> as IntoIterator>::IntoIter;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.perm).into_iter()
+        self.perm.iter()
     }
 }
 
@@ -132,6 +134,10 @@ impl<'a> Add<&Permutation> for &'a Permutation {
 
 #[cfg(test)]
 mod test {
+    extern crate std;
+
+    use std::vec::Vec;
+
     use std::cmp::Ordering;
 
     use crate::permutation::knuth::{knuth_tropical_multiplication, Core};
