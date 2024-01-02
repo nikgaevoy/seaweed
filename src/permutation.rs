@@ -54,6 +54,10 @@ impl<'a> IntoIterator for &'a Permutation {
 }
 
 impl Permutation {
+    pub fn new() -> Self {
+        Default::default()
+    }
+
     pub fn id(n: usize) -> Self {
         Self {
             perm: (0..n).collect(),

@@ -32,9 +32,17 @@ impl<
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Default, Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct AffinePermutation<S: AffineIndex> {
     perm: Vec<S>,
+}
+
+impl<S: AffineIndex> Default for AffinePermutation<S> {
+    fn default() -> Self {
+        Self {
+            perm: Vec::default(),
+        }
+    }
 }
 
 impl<S: AffineIndex> AffinePermutation<S> {
@@ -51,6 +59,10 @@ impl<S: AffineIndex> AffinePermutation<S> {
 }
 
 impl<S: AffineIndex> AffinePermutation<S> {
+    pub fn new() -> Self {
+        Default::default()
+    }
+
     pub fn id(n: usize) -> Self {
         Self {
             perm: (0..n).map(|x| S::from_usize(x).unwrap()).collect(),
