@@ -4,7 +4,9 @@ extern crate alloc;
 
 use alloc::vec;
 use alloc::vec::Vec;
+use core::cmp::Ordering;
 use core::fmt::Debug;
+use core::hash::{Hash, Hasher};
 use core::iter::{IntoIterator, Sum};
 use core::mem::replace;
 use core::mem::swap;
@@ -38,9 +40,33 @@ impl<
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Eq)]
 pub struct AffinePermutation<S: AffineIndex> {
     perm: Vec<S>,
+}
+
+impl<S: AffineIndex + Hash> Hash for AffinePermutation<S> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.perm[0..self.period()].hash(state)
+    }
+}
+
+impl<S: AffineIndex> PartialEq for AffinePermutation<S> {
+    fn eq(&self, other: &Self) -> bool {
+        self.perm[0..self.period()] == other.perm[0..other.period()]
+    }
+}
+
+impl<S: AffineIndex> PartialOrd for AffinePermutation<S> {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl<S: AffineIndex> Ord for AffinePermutation<S> {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.perm[0..self.period()].cmp(&other.perm[0..other.period()])
+    }
 }
 
 impl<S: AffineIndex> Default for AffinePermutation<S> {
@@ -65,26 +91,43 @@ impl<S: AffineIndex> AffinePermutation<S> {
 }
 
 impl<S: AffineIndex> AffinePermutation<S> {
+    /// Constructs an empty AffinePermutation.
     pub fn new() -> Self {
         Default::default()
     }
 
+    /// Constructs an identity affine permutation of a given length.
     pub fn id(n: usize) -> Self {
         Self {
             perm: (0..n).map(|x| S::from_usize(x).unwrap()).collect(),
         }
     }
 
-    pub fn is_empty(&self) -> bool {
-        self.perm.is_empty()
-    }
-
+    /// Returns the number of elements in the stored period.
+    /// Note that this could be not the shortest possible period.
+    /// For the shortest period see the [`period`] method.
+    /// Works in constant time.
+    ///
+    /// # Examples
+    /// ```
+    /// # use seaweed::AffinePermutation;
+    /// # fn main() {
+    /// assert_eq!(AffinePermutation::<isize>::id(7).len(), 7);
+    /// # }
+    /// ```
+    ///
+    /// [`period`]: AffinePermutation::period
     pub fn len(&self) -> usize {
         self.perm.len()
     }
 
+    /// Returns `true` if the permutation contains no elements.
+    pub fn is_empty(&self) -> bool {
+        self.perm.is_empty()
+    }
+
     /// Computes smallest period of an affine permutation.
-    /// Note that this is different from `len` because the period could be repeated several times.
+    /// Note that this is different from the [`len`] method because the period could be repeated several times.
     /// Works in linear time.
     ///
     /// # Examples
@@ -94,6 +137,8 @@ impl<S: AffineIndex> AffinePermutation<S> {
     /// assert_eq!(AffinePermutation::<isize>::id(10).period(), 1);
     /// # }
     /// ```
+    ///
+    /// [`len`]: AffinePermutation::len
     pub fn period(&self) -> usize {
         let mut z = vec![0; self.len()];
 
@@ -123,6 +168,7 @@ impl<S: AffineIndex> AffinePermutation<S> {
         self.len()
     }
 
+    /// Shortens the affine permutation to the smallest period.
     pub fn truncate_to_period(&mut self) {
         self.perm.truncate(self.period());
     }
@@ -153,7 +199,7 @@ impl<S: AffineIndex> AffinePermutation<S> {
         ans
     }
 
-    /// Construct inverse permutation.
+    /// Constructs inverse permutation.
     pub fn recip(&self) -> AffinePermutation<S> {
         let mut perm = vec![S::zero(); self.len()];
 
@@ -169,7 +215,7 @@ impl<S: AffineIndex> AffinePermutation<S> {
         AffinePermutation { perm }
     }
 
-    /// Build an equivalent permutation by repeating the period given number of times.
+    /// Builds an equivalent permutation by repeating the period given number of times.
     ///
     /// # Examples
     ///
@@ -325,5 +371,43 @@ impl<'a, S: AffineIndex> Add<&AffinePermutation<S>> for &'a AffinePermutation<S>
         debug_assert!(ans.is_valid());
 
         ans
+    }
+}
+
+#[cfg(test)]
+mod test {
+    extern crate std;
+
+    use std::collections::hash_map::DefaultHasher;
+
+    use crate::{build_affine_permutation, AffinePermutation};
+    use core::hash::{Hash, Hasher};
+
+    fn calculate_hash<T: Hash>(t: &T) -> u64 {
+        let mut s = DefaultHasher::new();
+        t.hash(&mut s);
+        s.finish()
+    }
+    #[test]
+    fn test_ord_and_hash() {
+        assert_eq!(
+            AffinePermutation::<isize>::id(3),
+            AffinePermutation::<isize>::id(4)
+        );
+        assert_eq!(
+            calculate_hash(&AffinePermutation::<isize>::id(5)),
+            calculate_hash(&AffinePermutation::<isize>::id(6)),
+        );
+
+        let a: AffinePermutation<isize> = build_affine_permutation(b"ABAC", b"AABBAAC");
+
+        let a_repeated = a.repeat(5);
+
+        assert_eq!(&a, &a_repeated);
+        assert_eq!(calculate_hash(&a), calculate_hash(&a_repeated));
+
+        let a_doubled = &a * 2u8;
+
+        assert_ne!(&a, &a_doubled);
     }
 }
