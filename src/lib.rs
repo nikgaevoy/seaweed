@@ -11,7 +11,7 @@ use core::iter::{IntoIterator, Sum};
 #[cfg(test)]
 use core::mem::replace;
 use core::mem::swap;
-use core::ops::{Add, Index, Mul};
+use core::ops::{Add, Index, Mul, Range};
 use num::integer::div_rem;
 use num::traits::{Euclid, NumAssignRef, NumRef};
 use num::{FromPrimitive, Integer, Signed, ToPrimitive};
@@ -75,20 +75,6 @@ impl<S: AffineIndex> Default for AffinePermutation<S> {
         Self {
             perm: Vec::default(),
         }
-    }
-}
-
-impl<S: AffineIndex> AffinePermutation<S> {
-    #[cfg(test)]
-    fn is_valid(&self) -> bool {
-        let mut tmp = self.perm.clone();
-        tmp.sort_unstable();
-        for i in (0..tmp.len()).skip(1) {
-            if tmp[i - 1] == tmp[i] {
-                return false;
-            }
-        }
-        true
     }
 }
 
@@ -245,6 +231,18 @@ impl<S: AffineIndex> AffinePermutation<S> {
 
         ans
     }
+
+    #[cfg(test)]
+    fn is_valid(&self) -> bool {
+        let mut tmp = self.perm.clone();
+        tmp.sort_unstable();
+        for i in (0..tmp.len()).skip(1) {
+            if tmp[i - 1] == tmp[i] {
+                return false;
+            }
+        }
+        true
+    }
 }
 
 impl<S: AffineIndex + Integer> AffinePermutation<S> {
@@ -259,6 +257,11 @@ impl<S: AffineIndex + Integer> AffinePermutation<S> {
             .map(|index| le.clone().min(self.element_period_at(index)))
             .chain((prefix..self.len()).map(|index| ri.clone().min(self.element_period_at(index))))
             .sum::<S>()
+    }
+
+    #[allow(unused_variables)]
+    pub fn lcs_range(&self, range: Range<S>) -> S {
+        todo!()
     }
 }
 
@@ -392,10 +395,13 @@ impl<'a, S: AffineIndex> Add<&AffinePermutation<S>> for &'a AffinePermutation<S>
 mod test {
     extern crate std;
 
+    use alloc::vec::Vec;
     use std::collections::hash_map::DefaultHasher;
 
     use crate::{build_affine_permutation, AffinePermutation};
     use core::hash::{Hash, Hasher};
+    use rand::rngs::ThreadRng;
+    use rand::{thread_rng, Rng};
 
     fn calculate_hash<T: Hash>(t: &T) -> u64 {
         let mut s = DefaultHasher::new();
@@ -424,5 +430,36 @@ mod test {
         let a_doubled = &a * 2u8;
 
         assert_ne!(&a, &a_doubled);
+    }
+
+    fn random_perm(rng: &mut ThreadRng, n: usize, shift: i128) -> AffinePermutation<i128> {
+        let mut perm: Vec<_> = (0..n)
+            .map(|x| x as i128 + rng.gen_range(-shift..=0) * n as i128)
+            .collect();
+
+        for i in 0..perm.len() {
+            perm.swap(rng.gen_range(0..=i), i);
+        }
+
+        AffinePermutation { perm }
+    }
+
+    #[test]
+    fn equivalence_on_random_tests() {
+        let mut rng = thread_rng();
+
+        for n in [3, 5, 7, 10] {
+            for _i in 0..30 {
+                for shift in 0..3 {
+                    let a = random_perm(&mut rng, n, shift);
+                    let b = random_perm(&mut rng, n, shift);
+
+                    let sum = &a + &b;
+
+                    assert_eq!(&(&sum + &sum) + &sum, &sum + &(&sum + &sum));
+                    assert_eq!(&(&a + &a) + &a, &a + &(&a + &a));
+                }
+            }
+        }
     }
 }
