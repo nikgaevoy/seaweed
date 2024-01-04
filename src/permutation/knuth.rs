@@ -53,7 +53,7 @@ impl From<&Core> for Permutation {
 
         let ans = Self { perm };
 
-        debug_assert!(ans.is_valid());
+        debug_assert!(ans.check_validity().is_ok());
 
         ans
     }

@@ -33,7 +33,7 @@ impl FromIterator<(Color, usize)> for ColoredPermutation {
             perm: Vec::from_iter(iter),
         };
 
-        debug_assert!(ans.is_valid());
+        debug_assert!(ans.check_validity().is_ok());
 
         ans
     }
@@ -58,11 +58,11 @@ impl ColoredPermutation {
         self.perm.iter()
     }
 
-    fn is_valid(&self) -> bool {
+    fn check_validity(&self) -> Result<(), &'static str> {
         Permutation {
             perm: self.iter().map(|(_, ind)| *ind).collect(),
         }
-        .is_valid()
+        .check_validity()
     }
 }
 

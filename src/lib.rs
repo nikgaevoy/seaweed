@@ -8,6 +8,7 @@ use core::cmp::Ordering;
 use core::fmt::Debug;
 use core::hash::{Hash, Hasher};
 use core::iter::{IntoIterator, Sum};
+#[cfg(test)]
 use core::mem::replace;
 use core::mem::swap;
 use core::ops::{Add, Index, Mul};
@@ -78,6 +79,7 @@ impl<S: AffineIndex> Default for AffinePermutation<S> {
 }
 
 impl<S: AffineIndex> AffinePermutation<S> {
+    #[cfg(test)]
     fn is_valid(&self) -> bool {
         let mut tmp = self.perm.clone();
         tmp.sort_unstable();
@@ -325,52 +327,64 @@ impl<S: AffineIndex, U: Integer + FromPrimitive> Mul<U> for &AffinePermutation<S
     }
 }
 
+fn the_algorithm<S: AffineIndex>(
+    lhs: &AffinePermutation<S>,
+    rhs: &AffinePermutation<S>,
+) -> AffinePermutation<S> {
+    let up = lhs.repeat(3);
+    let down = rhs.repeat(3);
+
+    let rdown = down.recip();
+
+    let starts = up.ends();
+    let ends = rdown.ends();
+
+    let a = Permutation::from(&up);
+    let rb = Permutation::from(&rdown);
+    let b = rb.recip();
+
+    let c = &b + &a;
+
+    let mut ans = vec![S::zero(); lhs.len()];
+
+    #[cfg(test)]
+    let mut used = vec![false; ans.len()];
+
+    for i in lhs.len()..2 * lhs.len() {
+        let from = starts[c[rb[i]]].clone();
+        let to = ends[rb[i]].clone();
+
+        let ind = to.rem_euclid(&S::from_usize(ans.len()).unwrap());
+        let shift = to - &ind;
+        let ind = ind.to_usize().unwrap();
+
+        ans[ind] = from - shift;
+
+        #[cfg(test)]
+        debug_assert!(!replace(
+            &mut used[ans[ind]
+                .rem_euclid(&S::from_usize(ans.len()).unwrap())
+                .to_usize()
+                .unwrap()],
+            true,
+        ));
+    }
+
+    let ans = AffinePermutation { perm: ans };
+
+    #[cfg(test)]
+    debug_assert!(ans.is_valid());
+
+    ans
+}
+
 impl<'a, S: AffineIndex> Add<&AffinePermutation<S>> for &'a AffinePermutation<S> {
     type Output = AffinePermutation<S>;
 
     fn add(self, rhs: &AffinePermutation<S>) -> Self::Output {
         assert_eq!(self.len(), rhs.len());
 
-        let up = self.repeat(3);
-        let down = rhs.repeat(3);
-
-        let rdown = down.recip();
-
-        let starts = up.ends();
-        let ends = rdown.ends();
-
-        let a = Permutation::from(&up);
-        let rb = Permutation::from(&rdown);
-        let b = rb.recip();
-
-        let c = &b + &a;
-
-        let mut ans = vec![S::zero(); self.len()];
-        let mut used = vec![false; ans.len()];
-
-        for i in self.len()..2 * self.len() {
-            let from = starts[c[rb[i]]].clone();
-            let to = ends[rb[i]].clone();
-
-            let ind = to.rem_euclid(&S::from_usize(ans.len()).unwrap());
-            let shift = to - &ind;
-            let ind = ind.to_usize().unwrap();
-
-            ans[ind] = from - shift;
-            debug_assert!(!replace(
-                &mut used[ans[ind]
-                    .rem_euclid(&S::from_usize(ans.len()).unwrap())
-                    .to_usize()
-                    .unwrap()],
-                true,
-            ));
-        }
-
-        let ans = Self::Output { perm: ans };
-
-        debug_assert!(ans.is_valid());
-
-        ans
+        the_algorithm(self, rhs)
     }
 }
 
@@ -388,6 +402,7 @@ mod test {
         t.hash(&mut s);
         s.finish()
     }
+
     #[test]
     fn test_ord_and_hash() {
         assert_eq!(

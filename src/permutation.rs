@@ -1,7 +1,8 @@
 use alloc::vec;
 use alloc::vec::Vec;
 use core::iter::{FromIterator, IntoIterator};
-use core::ops::{Add, Index};
+use core::mem::replace;
+use core::ops::{Add, AddAssign, Index, Mul, MulAssign};
 use core::slice::Iter;
 
 use self::recursive_steady_ant::recursive_steady_ant;
@@ -25,13 +26,17 @@ impl Index<usize> for Permutation {
     }
 }
 
+/// Constructs a permutation from iterator.
+/// Assumes that the contents of an iterator indeed represents a permutation of numbers in range `0..iter.len()`.
+/// Panics in the debug mode if this condition fails.
+/// Failing the condition in release mode results in unspecified behavior.
 impl FromIterator<usize> for Permutation {
     fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
         let ans = Self {
             perm: Vec::from_iter(iter),
         };
 
-        debug_assert!(ans.is_valid());
+        debug_assert!(ans.check_validity().is_ok());
 
         ans
     }
@@ -104,31 +109,142 @@ impl Permutation {
         Self { perm }
     }
 
-    fn is_valid(&self) -> bool {
-        let mut tmp = self.perm.clone();
-        tmp.sort();
-        if let Some(&x) = tmp.first() {
-            if x != 0 {
-                return false;
-            }
-        }
-        for i in (0..tmp.len()).skip(1) {
-            if tmp[i - 1] + 1 != tmp[i] {
-                return false;
+    fn check_validity(&self) -> Result<(), &'static str> {
+        let mut used = vec![false; self.perm.len()];
+
+        for &i in &self.perm {
+            if replace(
+                used.get_mut(i)
+                    .ok_or("Element of the permutation is larger than its len")?,
+                true,
+            ) {
+                return Err("Repeated element in the permutation");
             }
         }
 
-        true
+        Ok(())
     }
 }
 
+fn add_sticky(lhs: &Permutation, rhs: &Permutation) -> Permutation {
+    assert_eq!(
+        lhs.len(),
+        rhs.len(),
+        "Permutations have different sizes: {} != {}",
+        lhs.len(),
+        rhs.len()
+    );
+
+    if cfg!(test) {
+        debug_assert_eq!(recursive_steady_ant(lhs, rhs), steady_ant(lhs, rhs));
+    }
+
+    steady_ant(lhs, rhs)
+}
+
+/// Performs sticky multiplication of permutations.
+/// Permutations are required to have the same size.
 impl<'a> Add<&Permutation> for &'a Permutation {
     type Output = Permutation;
 
     fn add(self, rhs: &Permutation) -> Self::Output {
-        debug_assert_eq!(recursive_steady_ant(self, rhs), steady_ant(self, rhs));
+        add_sticky(self, rhs)
+    }
+}
 
-        steady_ant(self, rhs)
+impl<'a> Add<Permutation> for &'a Permutation {
+    type Output = Permutation;
+
+    fn add(self, rhs: Permutation) -> Self::Output {
+        add_sticky(self, &rhs)
+    }
+}
+
+impl Add<&Permutation> for Permutation {
+    type Output = Permutation;
+
+    fn add(self, rhs: &Permutation) -> Self::Output {
+        add_sticky(&self, rhs)
+    }
+}
+
+impl Add<Permutation> for Permutation {
+    type Output = Permutation;
+
+    fn add(self, rhs: Permutation) -> Self::Output {
+        add_sticky(&self, &rhs)
+    }
+}
+
+impl AddAssign<&Permutation> for Permutation {
+    fn add_assign(&mut self, rhs: &Permutation) {
+        *self = &*self + rhs;
+    }
+}
+
+impl AddAssign<Permutation> for Permutation {
+    fn add_assign(&mut self, rhs: Permutation) {
+        *self = &*self + rhs;
+    }
+}
+
+/// Performs regular multiplication of permutations.
+/// Permutations are required to have the same size.
+impl MulAssign<&Permutation> for Permutation {
+    fn mul_assign(&mut self, rhs: &Permutation) {
+        assert_eq!(
+            self.len(),
+            rhs.len(),
+            "Permutations have different sizes: {} != {}",
+            self.len(),
+            rhs.len()
+        );
+
+        for i in &mut self.perm {
+            *i = rhs[*i];
+        }
+    }
+}
+
+impl MulAssign<Permutation> for Permutation {
+    fn mul_assign(&mut self, rhs: Permutation) {
+        *self *= &rhs;
+    }
+}
+
+impl<'a> Mul<&Permutation> for &'a Permutation {
+    type Output = Permutation;
+
+    fn mul(self, rhs: &Permutation) -> Self::Output {
+        self.clone() * rhs
+    }
+}
+
+impl<'a> Mul<Permutation> for &'a Permutation {
+    type Output = Permutation;
+
+    fn mul(self, rhs: Permutation) -> Self::Output {
+        self.clone() * rhs
+    }
+}
+
+impl Mul<&Permutation> for Permutation {
+    type Output = Permutation;
+
+    fn mul(mut self, rhs: &Permutation) -> Self::Output {
+        self *= rhs;
+
+        self
+    }
+}
+
+impl Mul<Permutation> for Permutation {
+    type Output = Permutation;
+
+    fn mul(mut self, rhs: Permutation) -> Self::Output {
+        self *= rhs;
+
+        self
     }
 }
 

@@ -3,6 +3,7 @@ use alloc::vec;
 use alloc::vec::Vec;
 
 pub fn steady_ant(a: &Permutation, b: &Permutation) -> Permutation {
+    #[cfg(test)]
     assert_eq!(a.len(), b.len());
 
     let br = b.recip();
