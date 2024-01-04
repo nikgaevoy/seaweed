@@ -315,4 +315,32 @@ mod test {
             }
         }
     }
+
+    #[test]
+    fn operator_overloading() {
+        let id = Permutation::id(3);
+        let swap_12 = Permutation::from_iter([1, 0, 2]);
+        let cycle = Permutation::from_iter([2, 0, 1]);
+
+        assert_eq!(&cycle * &cycle * &cycle, id);
+        assert_eq!(&swap_12 * &swap_12, id);
+        assert_eq!(swap_12.clone() * swap_12.clone(), id);
+
+        let mut tmp = cycle.clone();
+
+        tmp *= &swap_12;
+        tmp *= swap_12.clone();
+        tmp += &swap_12;
+        tmp += swap_12.clone();
+
+        let double_tmp = &tmp * &tmp;
+        assert_eq!(&tmp * tmp.clone(), double_tmp);
+        assert_eq!(tmp.clone() * &tmp, double_tmp);
+        assert_eq!(tmp.clone() * tmp.clone(), double_tmp);
+
+        let double_tmp = &tmp + &tmp;
+        assert_eq!(&tmp + tmp.clone(), double_tmp);
+        assert_eq!(tmp.clone() + &tmp, double_tmp);
+        assert_eq!(tmp.clone() + tmp.clone(), double_tmp);
+    }
 }
