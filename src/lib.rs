@@ -302,13 +302,10 @@ pub fn build_affine_permutation<'a, S: AffineIndex, T: PartialEq + 'a>(
 
 impl<S: AffineIndex> From<&AffinePermutation<S>> for Permutation {
     fn from(value: &AffinePermutation<S>) -> Self {
-        let mut srt: Vec<_> = value.perm.iter().enumerate().collect();
-        srt.sort_by_key(|x| x.1);
-        srt.iter()
-            .map(|(ind, _)| ind)
-            .copied()
-            .collect::<Self>()
-            .recip()
+        let mut perm: Vec<_> = (0..value.len()).collect();
+        perm.sort_unstable_by_key(|x| &value.perm[*x]);
+
+        Self { perm }.recip()
     }
 }
 

@@ -15,7 +15,7 @@ mod steady_ant;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Default, Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct Permutation {
-    perm: Vec<usize>,
+    pub(crate) perm: Vec<usize>,
 }
 
 impl Index<usize> for Permutation {
@@ -294,8 +294,17 @@ mod test {
         );
     }
 
+    fn test_recip(a: &[usize]) {
+        let n = a.len();
+
+        let a = Permutation { perm: Vec::from(a) };
+        let b = a.recip();
+
+        assert_eq!(a * b, Permutation::id(n));
+    }
+
     #[test]
-    fn add() {
+    fn add_and_recip() {
         for n in 1..6 {
             let mut a: Vec<_> = (0..n).collect();
             let mut b = a.clone();
@@ -309,6 +318,7 @@ mod test {
                     }
                 }
 
+                test_recip(&a);
                 if !next_permutation(&mut a) {
                     break;
                 }
