@@ -1,3 +1,5 @@
+extern crate alloc;
+
 use super::Permutation;
 use alloc::vec;
 use alloc::vec::Vec;
