@@ -126,6 +126,12 @@ impl Permutation {
 
         Ok(())
     }
+
+    /// Performs relative combing of `self` to `other`.
+    /// Equivalent to `other.recip() * (self + other)`.
+    pub fn relative_combing(&self, other: &Self) -> Self {
+        other.recip() * (self + other)
+    }
 }
 
 fn add_sticky(lhs: &Permutation, rhs: &Permutation) -> Permutation {
