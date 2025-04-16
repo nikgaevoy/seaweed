@@ -1,8 +1,8 @@
 #![no_std]
 
 mod affine;
-mod permutation;
 pub mod local_lcs;
+mod permutation;
 
 pub use affine::build_affine_permutation;
 pub use affine::AffineIndex;

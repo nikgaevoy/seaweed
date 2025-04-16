@@ -5,7 +5,9 @@ pub struct Mock2DQuery {
 
 impl FromIterator<Vec<usize>> for Mock2DQuery {
     fn from_iter<I: IntoIterator<Item = usize>>(iter: I) -> Self {
-        Self { data: iter.into_iter().collect() }
+        Self {
+            data: iter.into_iter().collect(),
+        }
     }
 }
 
@@ -19,6 +21,9 @@ impl Mock2DQuery {
     }
 
     pub fn query(&self, x: Range<usize>, y: Range<usize>) -> usize {
-        self.data[x].iter().filter(|value| y.contains(&value)).count()
+        self.data[x]
+            .iter()
+            .filter(|value| y.contains(&value))
+            .count()
     }
 }
