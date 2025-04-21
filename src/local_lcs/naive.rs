@@ -15,7 +15,7 @@ impl<T: Eq> Naive<T> {
         Self { a, b }
     }
 
-    pub fn query(&self, x: Range<usize>, y: Range<usize>) -> usize {
+    pub fn ask(&self, x: Range<usize>, y: Range<usize>) -> usize {
         lcs(&self.a[x], &self.b[y])
     }
 }

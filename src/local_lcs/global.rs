@@ -4,6 +4,7 @@ mod mock;
 mod jellyfish;
 mod local;
 
+use core::cmp::Reverse;
 use core::iter::repeat_n;
 use core::ops::Bound::Excluded;
 use core::ops::Bound::Included;
@@ -14,6 +15,7 @@ use core::ops::RangeBounds;
 use crate::Permutation;
 use alloc::vec;
 use alloc::vec::Vec;
+use jellyfish::Arm;
 use jellyfish::Jellyfish;
 use local::LocalDistanceOracle;
 use local::RWArray;
@@ -134,8 +136,173 @@ impl GlobalDistanceOracle {
         ans
     }
 
+    fn divide_and_conquer(
+        &self,
+        positions: &mut [Option<usize>],
+        row: usize,
+        mut segment: Range<usize>,
+        arms: &Vec<Arm>,
+        dist: &[usize],
+        alive: &[usize],
+    ) {
+        if segment.is_empty() {
+            return;
+        }
+        if alive.len() == 1 {
+            let t = segment.next_back().unwrap();
+
+            if positions[0].is_none_or(|prev| prev < t) {
+                positions[0] = Some(t);
+            }
+
+            return;
+        }
+
+        let t = (segment.start + segment.end) / 2;
+
+        let best = alive
+            .iter()
+            .copied()
+            .enumerate()
+            .map(|(ind, val)| {
+                (
+                    Reverse(dist[val] + self.distance(arms[val].shoulder(), (t, row))),
+                    ind,
+                )
+            })
+            .max()
+            .unwrap()
+            .1;
+
+        if positions[best].is_none_or(|prev| prev < t) {
+            positions[best] = Some(t);
+        }
+
+        self.divide_and_conquer(
+            &mut positions[..=best],
+            row,
+            segment.start..t,
+            arms,
+            dist,
+            &alive[..=best],
+        );
+        self.divide_and_conquer(
+            &mut positions[best..],
+            row,
+            t + 1..segment.end,
+            arms,
+            dist,
+            &alive[best..],
+        );
+    }
+
+    fn build_row(
+        &self,
+        row: usize,
+        arms: &Vec<Arm>,
+        dist: &[usize],
+        alive: &[usize],
+    ) -> Vec<Option<usize>> {
+        let w = self.local[row + self.rw.len()].len();
+
+        let mut positions = vec![None; alive.len()];
+
+        self.divide_and_conquer(&mut positions, row, 0..w + 1, arms, dist, alive);
+
+        positions
+    }
+
+    fn build_inside_strip(&self, start: usize, strip: usize, arms: &mut Vec<Arm>, dist: &[usize], alive: &[usize]) {
+        if strip > self.rw.len() {
+            return;
+        }
+
+        let h = self.local[strip].height() / 2;
+        let mid = start + h;
+
+        let positions = self.build_row(mid, arms, dist, alive);
+
+        let mut l = 0;
+
+        debug_assert!(positions[0].is_some());
+
+        while let Some(t) = positions[l..].iter().position(|p| p.is_none())  {
+            l += t;
+            let t = positions[l..].iter().position(|p| p.is_some()).unwrap_or(positions[l..].len());
+
+            let r = l + t;
+            l -= 1;
+
+            self.build_inside_strip(start, 2 * strip, arms, dist, &alive[l..r]);
+
+            l = r;
+        }
+
+        let mut long = Vec::new();
+
+        for (ind, pos) in alive.iter().copied().zip(positions.iter().copied()) {
+            if let Some(p) = pos {
+                arms[ind].push((p, mid));
+                long.push(ind);
+            }
+        }
+
+        self.build_inside_strip(start + h, 2 * strip + 1, arms, dist, &long);
+    }
+
+    fn build_strip(&self, start: usize, strip: usize, arms: &mut Vec<Arm>, dist: &[usize], alive: &mut Vec<usize>) {
+        let row = start + self.local[strip].height();
+
+        let positions = self.build_row(row, arms, dist, alive);
+
+        let mut l = 0;
+
+        debug_assert!(positions[0].is_some());
+
+        while let Some(t) = positions[l..].iter().position(|p| p.is_none())  {
+            l += t;
+            let t = positions[l..].iter().position(|p| p.is_some()).unwrap_or(positions[l..].len());
+
+            let r = l + t;
+            l -= 1;
+
+            self.build_inside_strip(start, strip, arms, dist, &alive[l..r]);
+
+            l = r;
+        }
+
+        for (ind, pos) in alive.iter().copied().zip(positions.iter().copied()) {
+            if let Some(p) = pos {
+                arms[ind].push((p, row));
+            }
+        }
+
+        let mut iter = positions.into_iter();
+        alive.retain(|_| iter.next().is_some());
+    }
+
     fn build_jellyfishes(&mut self) {
-        todo!()
+        for y in (0..self.local.len()).rev() {
+            self.jellyfishes[y] = Vec::with_capacity(self.local[y].len());
+
+            for x in 0..self.local[y].len() {
+                let h = self.local[y].height();
+                let mut cur = y + h;
+                let mut arms: Vec<_> = (x.saturating_sub(h)..(x + h).min(self.local[y].len()))
+                    .map(|t| Arm::new((t, cur)))
+                    .collect();
+
+                let strips = Self::get_strips(self.local.len(), cur, self.local.len());
+                let mut alive = (0..=arms.len()).collect();
+
+                for s in strips {
+                    self.build_strip(cur, s, &mut arms, self.local[s].distances_from(x), &mut alive);
+                    cur += self.local[s].height();
+                }
+
+                self.jellyfishes[y].push(Jellyfish::new(arms));
+            }
+        }
     }
 }
 

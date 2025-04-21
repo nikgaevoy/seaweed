@@ -44,6 +44,10 @@ impl LocalDistanceOracle {
     pub fn ask(&self, x: usize, y: usize) -> usize {
         self.dist[x][y - x.saturating_sub(self.h)]
     }
+
+    pub fn distances_from(&self, x: usize) -> &[usize] {
+        &self.dist[x]
+    }
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Ord, PartialOrd, Hash)]
@@ -111,6 +115,7 @@ impl RWArray {
         self.h
     }
 
+    #[allow(dead_code)]
     pub fn len(&self) -> usize {
         self.rw.len()
     }
