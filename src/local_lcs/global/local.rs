@@ -1,5 +1,6 @@
 extern crate alloc;
 
+use core::cmp::Reverse;
 use core::ops::Range;
 
 use crate::Permutation;
@@ -17,7 +18,7 @@ impl LocalDistanceOracle {
         let n = inverse_perm.len();
 
         let mut dist: Vec<Vec<usize>> = (0..=n)
-            .map(|x| vec![0; n.min(x + h) - (x.saturating_sub(h)) + 1])
+            .map(|x| vec![0; n.min(x + h) - x.saturating_sub(h) + 1])
             .collect();
 
         for x in 0..=n {
@@ -26,11 +27,15 @@ impl LocalDistanceOracle {
             for i in 1..dist[x].len() {
                 let y = start + i;
 
-                dist[x][y] = dist[x][y - 1] + if inverse_perm[y - 1] >= x { 1 } else { 0 };
+                dist[x][i] = dist[x][i - 1] + if inverse_perm[y - 1] >= x { 1 } else { 0 };
             }
         }
 
         Self { h, dist }
+    }
+
+    pub fn start(&self, x: usize) -> usize {
+        x.saturating_sub(self.height())
     }
 
     pub fn height(&self) -> usize {
@@ -42,7 +47,7 @@ impl LocalDistanceOracle {
     }
 
     pub fn ask(&self, x: usize, y: usize) -> usize {
-        self.dist[x][y - x.saturating_sub(self.h)]
+        self.dist[x][y - self.start(x)]
     }
 
     pub fn distances_from(&self, x: usize) -> &[usize] {
@@ -72,9 +77,8 @@ impl RWArray {
         let t = ans.len() / 2;
         let y = shift + t;
 
-        ans[t] = mid
-            .clone()
-            .min_by_key(|&m| a.ask(x, m) + b.ask(m, y))
+        ans[t] = (mid.start.max(y.saturating_sub(b.height()))..mid.end.min(y + b.height() + 1))
+            .max_by_key(|&m| (Reverse(a.ask(x, m) + b.ask(m, y)), m))
             .unwrap();
 
         Self::build(a, b, x, mid.start..ans[t] + 1, &mut ans[..t], shift);
@@ -84,7 +88,7 @@ impl RWArray {
     pub fn new(a: &LocalDistanceOracle, b: &LocalDistanceOracle) -> Self {
         assert_eq!(a.len(), b.len());
 
-        let n = a.len();
+        let n = a.len() - 1;
         let h = a.h + b.h;
 
         let rw: Vec<Vec<usize>> = (0..=n)
@@ -95,7 +99,7 @@ impl RWArray {
                     a,
                     b,
                     x,
-                    x.saturating_sub(a.h)..x + a.h + 1,
+                    x.saturating_sub(a.h)..n.min(x + a.h) + 1,
                     &mut ans,
                     x.saturating_sub(h),
                 );
@@ -107,12 +111,16 @@ impl RWArray {
         Self { h, rw }
     }
 
-    pub fn ask(&self, x: usize, y: usize) -> usize {
-        self.rw[x][y - x.saturating_sub(self.h)]
+    pub fn start(&self, x: usize) -> usize {
+        x.saturating_sub(self.height())
     }
 
     pub fn height(&self) -> usize {
         self.h
+    }
+
+    pub fn ask(&self, x: usize, y: usize) -> usize {
+        self.rw[x][y - self.start(x)]
     }
 
     #[allow(dead_code)]

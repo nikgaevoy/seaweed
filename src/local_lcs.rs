@@ -11,8 +11,8 @@ pub mod tests {
     use alloc::vec::Vec;
 
     fn test_all_pairs<T: Eq>(a: Vec<T>, b: Vec<T>) {
-        let n= a.len();
-        let m= b.len();
+        let n = a.len();
+        let m = b.len();
 
         let solve = GlobalDistanceOracle::new(&a, &b);
         let stress = Naive::new(a, b);
@@ -33,6 +33,6 @@ pub mod tests {
 
     #[test]
     pub fn sample() {
-        test_all_pairs("abacaba".chars().collect(), "abacadaba".chars().collect());
+        test_all_pairs("abab".chars().collect(), "abba".chars().collect());
     }
 }

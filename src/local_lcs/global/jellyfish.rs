@@ -66,7 +66,7 @@ impl Arm {
     }
 
     fn cmp(&self, rw: &Vec<RWArray>, (x, y): (usize, usize)) -> Ordering {
-        self.get(rw, y).cmp(&x).then(Less)
+        self.get(rw, y).cmp(&x).then(Greater)
     }
 }
 
@@ -82,7 +82,7 @@ pub struct Jellyfish {
 
 impl Jellyfish {
     pub fn ask(&self, rw: &Vec<RWArray>, (x, y): (usize, usize)) -> usize {
-        let ver = self.versions.binary_search(&y).unwrap_or_else(|i| i);
+        let ver = self.versions.binary_search(&y).unwrap_or_else(|i| i - 1);
 
         let ind = self.intercepts[ver]
             .binary_search_by(|&index| {
