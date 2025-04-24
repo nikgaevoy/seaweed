@@ -19,11 +19,12 @@ impl Arm {
     }
 
     pub fn push(&mut self, landmark: (usize, usize)) {
-        self.landmarks.push(landmark);
-    }
+        debug_assert!(self
+            .landmarks
+            .last()
+            .is_none_or(|prev| { prev.1 < landmark.1 && (landmark.1 - prev.1).is_power_of_two() }));
 
-    pub fn shoulder(&self) -> (usize, usize) {
-        self.landmarks[0]
+        self.landmarks.push(landmark);
     }
 
     pub fn intercept(&self) -> (usize, usize) {
@@ -31,13 +32,13 @@ impl Arm {
     }
 
     fn get(&self, rw: &Vec<RWArray>, y: usize) -> usize {
-        match self.landmarks.binary_search_by(|(_lx, ly)| y.cmp(ly)) {
+        match self.landmarks.binary_search_by(|(_lx, ly)| ly.cmp(&y)) {
             Ok(ind) => self.landmarks[ind].0,
             Err(ind) => {
-                assert!(ind < self.landmarks.len());
+                assert!(0 < ind && ind < self.landmarks.len());
 
-                let (mut ax, mut ay) = self.landmarks[ind];
-                let (mut bx, mut by) = self.landmarks[ind + 1];
+                let (mut ax, mut ay) = self.landmarks[ind - 1];
+                let (mut bx, mut by) = self.landmarks[ind];
 
                 let mut strip = (ay + rw.len()) >> (by - ay).trailing_zeros();
 
@@ -128,6 +129,10 @@ impl Jellyfish {
             l = r;
         }
 
-        Self { intercepts, arms, versions }
+        Self {
+            intercepts,
+            arms,
+            versions,
+        }
     }
 }

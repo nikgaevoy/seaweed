@@ -71,21 +71,32 @@ impl GlobalDistanceOracle {
         left
     }
 
+    fn is_reachable((ax, ay): (usize, usize), (bx, by): (usize, usize)) -> bool {
+        ay <= by && ax.abs_diff(bx) <= by - ay
+    }
+
     fn distance(&self, (ax, ay): (usize, usize), (bx, by): (usize, usize)) -> usize {
+        assert!(Self::is_reachable((ax, ay), (bx, by)));
+
         let strips = Self::get_strips(self.rw.len(), ay, by);
 
         let mut x = ax;
         let mut ans = 0;
 
         #[cfg(test)]
-        dbg!(ax, ay);
-        #[cfg(test)]
-        dbg!(bx, by);
+        {
+            dbg!(ax, ay);
+            dbg!(bx, by);
+        }
 
         for s in strips {
             let w = self.next_waypoint(s, x, (bx, by));
             #[cfg(test)]
-            dbg!(s, w);
+            {
+                dbg!(s, w);
+                dbg!(&self.local[s].height());
+                dbg!(&self.jellyfishes[s][x]);
+            }
             ans += self.local[s].ask(x, w);
             x = w;
         }
@@ -171,7 +182,7 @@ impl GlobalDistanceOracle {
         positions: &mut [Option<usize>],
         row: usize,
         mut segment: Range<usize>,
-        arms: &Vec<Arm>,
+        shoulder: (usize, usize),
         dist: &[usize],
         alive: &[usize],
     ) {
@@ -194,11 +205,14 @@ impl GlobalDistanceOracle {
             .iter()
             .copied()
             .enumerate()
-            .map(|(ind, val)| {
-                (
-                    Reverse(dist[val] + self.distance(arms[val].shoulder(), (t, row))),
-                    ind,
-                )
+            .filter_map(|(ind, val)| {
+                let wp = (shoulder.0 + val, shoulder.1);
+
+                if Self::is_reachable(wp, (t, row)) {
+                    Some((Reverse(dist[val] + self.distance(wp, (t, row))), ind))
+                } else {
+                    None
+                }
             })
             .max()
             .unwrap()
@@ -212,7 +226,7 @@ impl GlobalDistanceOracle {
             &mut positions[..=best],
             row,
             segment.start..t,
-            arms,
+            shoulder,
             dist,
             &alive[..=best],
         );
@@ -220,7 +234,7 @@ impl GlobalDistanceOracle {
             &mut positions[best..],
             row,
             t + 1..segment.end,
-            arms,
+            shoulder,
             dist,
             &alive[best..],
         );
@@ -228,9 +242,9 @@ impl GlobalDistanceOracle {
 
     fn build_row(
         &self,
-        head: (usize, usize),
+        _head: (usize, usize),
+        shoulder: (usize, usize),
         row: usize,
-        arms: &Vec<Arm>,
         dist: &[usize],
         alive: &[usize],
     ) -> Vec<Option<usize>> {
@@ -239,8 +253,12 @@ impl GlobalDistanceOracle {
         self.divide_and_conquer(
             &mut positions,
             row,
-            head.0.saturating_sub(row - head.1)..self.w.min(head.0 + row - head.1) + 1,
-            arms,
+            (shoulder.0 + alive[0]).saturating_sub(row - shoulder.1)
+                ..self
+                    .w
+                    .min(shoulder.0 + alive.last().unwrap() + row - shoulder.1)
+                    + 1,
+            shoulder,
             dist,
             alive,
         );
@@ -251,6 +269,7 @@ impl GlobalDistanceOracle {
     fn build_inside_strip(
         &self,
         head: (usize, usize),
+        shoulder: (usize, usize),
         start: usize,
         strip: usize,
         arms: &mut Vec<Arm>,
@@ -264,11 +283,11 @@ impl GlobalDistanceOracle {
         let h = self.local[strip].height() / 2;
         let mid = start + h;
 
-        let positions = self.build_row(head, mid, arms, dist, alive);
+        let positions = self.build_row(head, shoulder, mid, dist, alive);
 
         let mut l = 0;
 
-        debug_assert!(positions[0].is_some());
+        // debug_assert!(positions[0].is_some());
 
         while let Some(t) = positions[l..].iter().position(|p| p.is_none()) {
             l += t;
@@ -278,9 +297,9 @@ impl GlobalDistanceOracle {
                 .unwrap_or(positions[l..].len());
 
             let r = l + t;
-            l -= 1;
+            l = l.saturating_sub(1);
 
-            self.build_inside_strip(head, start, 2 * strip, arms, dist, &alive[l..r]);
+            self.build_inside_strip(head, shoulder, start, 2 * strip, arms, dist, &alive[l..r]);
 
             l = r;
         }
@@ -294,12 +313,13 @@ impl GlobalDistanceOracle {
             }
         }
 
-        self.build_inside_strip(head, start + h, 2 * strip + 1, arms, dist, &long);
+        self.build_inside_strip(head, shoulder, start + h, 2 * strip + 1, arms, dist, &long);
     }
 
     fn build_strip(
         &self,
         head: (usize, usize),
+        shoulder: (usize, usize),
         start: usize,
         strip: usize,
         arms: &mut Vec<Arm>,
@@ -308,11 +328,11 @@ impl GlobalDistanceOracle {
     ) {
         let row = start + self.local[strip].height();
 
-        let positions = self.build_row(head, row, arms, dist, alive);
+        let positions = self.build_row(head, shoulder, row, dist, alive);
 
         let mut l = 0;
 
-        debug_assert!(positions[0].is_some());
+        // debug_assert!(positions[0].is_some());
 
         while let Some(t) = positions[l..].iter().position(|p| p.is_none()) {
             l += t;
@@ -322,16 +342,20 @@ impl GlobalDistanceOracle {
                 .unwrap_or(positions[l..].len());
 
             let r = l + t;
-            l -= 1;
+            l = l.saturating_sub(1);
 
-            self.build_inside_strip(head, start, strip, arms, dist, &alive[l..r]);
+            self.build_inside_strip(head, shoulder, start, strip, arms, dist, &alive[l..r]);
 
             l = r;
         }
 
         for (ind, pos) in alive.iter().copied().zip(positions.iter().copied()) {
             if let Some(p) = pos {
-                arms[ind].push((p, row));
+                assert!(ind <= arms.len());
+
+                if ind < arms.len() {
+                    arms[ind].push((p, row));
+                }
             }
         }
 
@@ -340,40 +364,47 @@ impl GlobalDistanceOracle {
     }
 
     fn build_jellyfishes(&mut self) {
-        for body in (1..self.local.len()).rev() {
-            self.jellyfishes[body] = Vec::with_capacity(self.local[body].len());
+        for shoulder_row in (1..=self.h).rev() {
+            let mut body = shoulder_row + self.rw.len() - 1;
 
-            for x in 0..self.local[body].len() {
+            while body > 0 {
                 let h = self.local[body].height();
 
-                let mut cur = body;
-                while cur < self.rw.len() {
-                    cur *= 2;
+                let strips = Self::get_strips(self.h, shoulder_row, self.h);
+                self.jellyfishes[body] = Vec::with_capacity(self.local[body].len());
+
+                for x in 0..self.local[body].len() {
+                    let head = (x, shoulder_row - h);
+                    let shoulder = (x.saturating_sub(h), shoulder_row);
+                    let mut cur = shoulder_row;
+
+                    let mut arms: Vec<_> = (x.saturating_sub(h)..(x + h).min(self.w))
+                        .map(|t| Arm::new((t, cur)))
+                        .collect();
+
+                    let mut alive = (0..=arms.len()).collect();
+
+                    for &s in &strips {
+                        self.build_strip(
+                            head,
+                            shoulder,
+                            cur,
+                            s,
+                            &mut arms,
+                            self.local[s].distances_from(x),
+                            &mut alive,
+                        );
+                        cur += self.local[s].height();
+                    }
+
+                    self.jellyfishes[body].push(Jellyfish::new(arms));
                 }
-                cur -= self.rw.len();
-                let head = (x, cur);
-                cur += h;
 
-                let mut arms: Vec<_> = (x.saturating_sub(h)..(x + h).min(self.local[body].len()))
-                    .map(|t| Arm::new((t, cur)))
-                    .collect();
-
-                let strips = Self::get_strips(h, cur, h);
-                let mut alive = (0..=arms.len()).collect();
-
-                for s in strips {
-                    self.build_strip(
-                        head,
-                        cur,
-                        s,
-                        &mut arms,
-                        self.local[s].distances_from(x),
-                        &mut alive,
-                    );
-                    cur += self.local[s].height();
+                if body % 2 == 0 {
+                    break;
+                } else {
+                    body /= 2;
                 }
-
-                self.jellyfishes[body].push(Jellyfish::new(arms));
             }
         }
     }
@@ -386,7 +417,7 @@ fn remove_bounds(n: usize, range: impl RangeBounds<usize>) -> Range<usize> {
         Unbounded => 0,
     };
 
-    let end = match range.start_bound() {
+    let end = match range.end_bound() {
         Included(&x) => x + 1,
         Excluded(&x) => x,
         Unbounded => n,
