@@ -1,8 +1,5 @@
 extern crate alloc;
 
-use core::cmp::Reverse;
-use core::ops::Range;
-
 use crate::Permutation;
 use alloc::vec;
 use alloc::vec::Vec;
@@ -14,7 +11,7 @@ pub struct LocalDistanceOracle {
 }
 
 impl LocalDistanceOracle {
-    pub fn new(h: usize, inverse_perm: Permutation) -> Self {
+    pub fn new(h: usize, inverse_perm: &Permutation) -> Self {
         let n = inverse_perm.len();
 
         let mut dist: Vec<Vec<usize>> = (0..=n)
@@ -47,7 +44,7 @@ impl LocalDistanceOracle {
     }
 
     pub fn ask(&self, x: usize, y: usize) -> usize {
-        self.dist[x][y - self.start(x)]
+        self.dist[x][y.saturating_sub(self.start(x))]
     }
 
     pub fn distances_from(&self, x: usize) -> &[usize] {
@@ -62,53 +59,33 @@ pub struct RWArray {
 }
 
 impl RWArray {
-    fn build(
-        a: &LocalDistanceOracle,
-        b: &LocalDistanceOracle,
-        x: usize,
-        mid: Range<usize>,
-        ans: &mut [usize],
-        shift: usize,
-    ) {
-        if ans.is_empty() {
-            return;
-        }
+    pub fn new(h: usize, a_inv: &Permutation, b: &Permutation) -> Self {
+        assert_eq!(a_inv.len(), b.len());
 
-        let t = ans.len() / 2;
-        let y = shift + t;
+        let n = a_inv.len();
 
-        ans[t] = (mid.start.max(y.saturating_sub(b.height()))..mid.end.min(y + b.height() + 1))
-            .max_by_key(|&m| (Reverse(a.ask(x, m) + b.ask(m, y)), m))
-            .unwrap();
-
-        Self::build(a, b, x, mid.start..ans[t] + 1, &mut ans[..t], shift);
-        Self::build(a, b, x, ans[t]..mid.end, &mut ans[t + 1..], shift + t + 1);
-    }
-
-    pub fn new(a: &LocalDistanceOracle, b: &LocalDistanceOracle) -> Self {
-        assert_eq!(a.len(), b.len());
-
-        let n = a.len() - 1;
-        let h = a.h + b.h;
-
-        let rw: Vec<Vec<usize>> = (0..=n)
+        let rw: Vec<Vec<usize>> = (0..n)
             .map(|x| {
-                let mut ans = vec![0; n.min(x + h) - (x.saturating_sub(h)) + 1];
+                let mid = x.saturating_sub(h)..n.min(x + h);
+                let mut bot = mid.start.saturating_sub(h)..n.min(mid.end + h) + 1;
 
-                Self::build(
-                    a,
-                    b,
-                    x,
-                    x.saturating_sub(a.h)..n.min(x + a.h) + 1,
-                    &mut ans,
-                    x.saturating_sub(h),
-                );
+                let shift = bot.start;
+
+                let mut ans = vec![mid.end; bot.len()];
+
+                for i in mid {
+                    if a_inv[i] >= x {
+                        while bot.start < b[i] {
+                            ans[bot.next().unwrap() - shift] = i;
+                        }
+                    }
+                }
 
                 ans
             })
             .collect();
 
-        Self { h, rw }
+        Self { h: 2 * h, rw }
     }
 
     pub fn start(&self, x: usize) -> usize {
@@ -120,7 +97,7 @@ impl RWArray {
     }
 
     pub fn ask(&self, x: usize, y: usize) -> usize {
-        self.rw[x][y - self.start(x)]
+        self.rw[x][y.saturating_sub(self.start(x))]
     }
 
     #[allow(dead_code)]

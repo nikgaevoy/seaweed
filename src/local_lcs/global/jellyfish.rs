@@ -27,6 +27,10 @@ impl Arm {
         self.landmarks.push(landmark);
     }
 
+    pub fn shoulder(&self) -> (usize, usize) {
+        self.landmarks.first().copied().unwrap()
+    }
+
     pub fn intercept(&self) -> (usize, usize) {
         self.landmarks.last().copied().unwrap()
     }
@@ -93,10 +97,7 @@ impl Jellyfish {
             })
             .unwrap_err();
 
-        self.intercepts[ver]
-            .get(ind)
-            .copied()
-            .unwrap_or(self.arms.len())
+        self.arms[*self.intercepts[ver].get(ind).unwrap()].shoulder().0
     }
 
     pub fn new(arms: Vec<Arm>) -> Self {

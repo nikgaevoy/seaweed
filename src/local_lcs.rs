@@ -6,6 +6,7 @@ pub use global::GlobalDistanceOracle;
 #[cfg(test)]
 pub mod tests {
     extern crate alloc;
+    extern crate std;
 
     use super::{naive::Naive, GlobalDistanceOracle};
     use alloc::vec::Vec;
@@ -34,5 +35,7 @@ pub mod tests {
     #[test]
     pub fn sample() {
         test_all_pairs("abab".chars().collect(), "abba".chars().collect());
+        test_all_pairs("abcabcabc".chars().collect(), "ababcaba".chars().collect());
+        test_all_pairs("ababcaba".chars().collect(), "abcabcabc".chars().collect());
     }
 }
