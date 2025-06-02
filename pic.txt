@@ -1,0 +1,821 @@
+
+running 5 tests
+test permutation::test::operator_overloading ... ok
+test affine::test::test_ord_and_hash ... ok
+test local_lcs::tests::sample ... FAILED
+test affine::test::equivalence_on_random_tests ... ok
+test permutation::test::add_and_recip ... ok
+
+failures:
+
+---- local_lcs::tests::sample stdout ----
+[src/local_lcs/global.rs:170:25] &perms[2 * i] = (
+    Permutation {
+        perm: [
+            0,
+            1,
+            3,
+            2,
+            5,
+            4,
+            6,
+            7,
+        ],
+    },
+    Permutation {
+        perm: [
+            0,
+            1,
+            3,
+            2,
+            5,
+            4,
+            6,
+            7,
+        ],
+    },
+    2,
+)
+[src/local_lcs/global.rs:170:25] &perms[2 * i + 1] = (
+    Permutation {
+        perm: [
+            1,
+            0,
+            3,
+            2,
+            4,
+            6,
+            5,
+            7,
+        ],
+    },
+    Permutation {
+        perm: [
+            1,
+            0,
+            3,
+            2,
+            4,
+            6,
+            5,
+            7,
+        ],
+    },
+    2,
+)
+[src/local_lcs/global.rs:170:25] &ans = RWArray {
+    h: 4,
+    rw: [
+        [
+            0,
+            0,
+            2,
+            2,
+            2,
+        ],
+        [
+            1,
+            2,
+            2,
+            2,
+            3,
+            3,
+        ],
+        [
+            2,
+            2,
+            2,
+            2,
+            4,
+            4,
+            4,
+        ],
+        [
+            2,
+            2,
+            2,
+            2,
+            4,
+            5,
+            5,
+            5,
+        ],
+        [
+            4,
+            4,
+            4,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+        ],
+        [
+            4,
+            4,
+            4,
+            4,
+            6,
+            7,
+            7,
+            7,
+        ],
+        [
+            6,
+            6,
+            6,
+            6,
+            7,
+            7,
+            8,
+        ],
+        [
+            7,
+            7,
+            7,
+            7,
+            7,
+            8,
+        ],
+        [
+            8,
+            8,
+            8,
+            8,
+            8,
+        ],
+    ],
+}
+[src/local_lcs/global.rs:170:25] &perms[2 * i] = (
+    Permutation {
+        perm: [
+            0,
+            1,
+            2,
+            4,
+            3,
+            6,
+            5,
+            7,
+        ],
+    },
+    Permutation {
+        perm: [
+            0,
+            1,
+            2,
+            4,
+            3,
+            6,
+            5,
+            7,
+        ],
+    },
+    2,
+)
+[src/local_lcs/global.rs:170:25] &perms[2 * i + 1] = (
+    Permutation {
+        perm: [
+            0,
+            1,
+            2,
+            4,
+            3,
+            5,
+            6,
+            7,
+        ],
+    },
+    Permutation {
+        perm: [
+            0,
+            1,
+            2,
+            4,
+            3,
+            5,
+            6,
+            7,
+        ],
+    },
+    2,
+)
+[src/local_lcs/global.rs:170:25] &ans = RWArray {
+    h: 4,
+    rw: [
+        [
+            0,
+            1,
+            2,
+            2,
+            2,
+        ],
+        [
+            1,
+            1,
+            2,
+            3,
+            3,
+            3,
+        ],
+        [
+            2,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+        ],
+        [
+            3,
+            3,
+            3,
+            3,
+            3,
+            5,
+            5,
+            5,
+        ],
+        [
+            3,
+            3,
+            3,
+            3,
+            3,
+            5,
+            6,
+            6,
+            6,
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            6,
+            7,
+            7,
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            7,
+            7,
+            8,
+        ],
+        [
+            7,
+            7,
+            7,
+            7,
+            7,
+            8,
+        ],
+        [
+            8,
+            8,
+            8,
+            8,
+            8,
+        ],
+    ],
+}
+\begin{tikzpicture}[y=-1cm]
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,1) -- (\linewidth-\pgflinewidth,1);	\draw[thick,black] (0,0) .. controls (0,0.5) and (0,0.5) .. (0,1);
+	\draw[thick,black] (1,0) .. controls (1,0.5) and (1,0.5) .. (1,1);
+	\draw[thick,black] (2,0) .. controls (2,0.5) and (2,0.5) .. (2,1);
+	\draw[thick,black] (3,0) .. controls (3,0.5) and (3,0.5) .. (3,1);
+	\draw[thick,black] (4,0) .. controls (4,0.5) and (4,0.5) .. (4,1);
+	\draw[thick,black] (5,0) .. controls (5,0.5) and (5,0.5) .. (5,1);
+	\draw[thick,black] (6,0) .. controls (6,0.5) and (6,0.5) .. (6,1);
+	\draw[thick,black] (7,0) .. controls (7,0.5) and (7,0.5) .. (7,1);
+
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,2) -- (\linewidth-\pgflinewidth,2);	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,0.5) and (-0.6,0.5) .. (-0.6,1) .. controls (-0.6, 1.5) and (-0.5, 1.5) .. (-0.5, 2);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,0.5) and (0.46666667,0.5) .. (0.46666667,1) .. controls (0.46666667, 1.5) and (0.5, 1.5) .. (0.5, 2);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,0.5) and (0.53333336,0.5) .. (0.53333336,1) .. controls (0.53333336, 1.5) and (1.5, 1.5) .. (1.5, 2);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,0.5) and (0.4,0.5) .. (0.4,1) .. controls (0.4, 1.5) and (-0.5, 1.5) .. (-0.5, 2);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,0.5) and (0.45,0.5) .. (0.45,1) .. controls (0.45, 1.5) and (0.5, 1.5) .. (0.5, 2);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,0.5) and (1.5,0.5) .. (1.5,1) .. controls (1.5, 1.5) and (1.5, 1.5) .. (1.5, 2);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,0.5) and (1.55,0.5) .. (1.55,1) .. controls (1.55, 1.5) and (2.5, 1.5) .. (2.5, 2);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,0.5) and (1.4,0.5) .. (1.4,1) .. controls (1.4, 1.5) and (-0.5, 1.5) .. (-0.5, 2);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,0.5) and (1.44,0.5) .. (1.44,1) .. controls (1.44, 1.5) and (0.5, 1.5) .. (0.5, 2);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,0.5) and (1.48,0.5) .. (1.48,1) .. controls (1.48, 1.5) and (1.5, 1.5) .. (1.5, 2);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,0.5) and (1.52,0.5) .. (1.52,1) .. controls (1.52, 1.5) and (2.5, 1.5) .. (2.5, 2);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,0.5) and (2.56,0.5) .. (2.56,1) .. controls (2.56, 1.5) and (3.5, 1.5) .. (3.5, 2);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,0.5) and (2.4,0.5) .. (2.4,1) .. controls (2.4, 1.5) and (0.5, 1.5) .. (0.5, 2);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,0.5) and (2.44,0.5) .. (2.44,1) .. controls (2.44, 1.5) and (1.5, 1.5) .. (1.5, 2);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,0.5) and (3.48,0.5) .. (3.48,1) .. controls (3.48, 1.5) and (2.5, 1.5) .. (2.5, 2);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,0.5) and (3.52,0.5) .. (3.52,1) .. controls (3.52, 1.5) and (3.5, 1.5) .. (3.5, 2);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,0.5) and (3.56,0.5) .. (3.56,1) .. controls (3.56, 1.5) and (4.5, 1.5) .. (4.5, 2);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,0.5) and (3.4,0.5) .. (3.4,1) .. controls (3.4, 1.5) and (1.5, 1.5) .. (1.5, 2);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,0.5) and (3.44,0.5) .. (3.44,1) .. controls (3.44, 1.5) and (2.5, 1.5) .. (2.5, 2);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,0.5) and (3.48,0.5) .. (3.48,1) .. controls (3.48, 1.5) and (3.5, 1.5) .. (3.5, 2);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,0.5) and (3.52,0.5) .. (3.52,1) .. controls (3.52, 1.5) and (4.5, 1.5) .. (4.5, 2);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,0.5) and (4.56,0.5) .. (4.56,1) .. controls (4.56, 1.5) and (5.5, 1.5) .. (5.5, 2);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,0.5) and (4.4,0.5) .. (4.4,1) .. controls (4.4, 1.5) and (2.5, 1.5) .. (2.5, 2);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,0.5) and (4.44,0.5) .. (4.44,1) .. controls (4.44, 1.5) and (3.5, 1.5) .. (3.5, 2);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,0.5) and (5.48,0.5) .. (5.48,1) .. controls (5.48, 1.5) and (4.5, 1.5) .. (4.5, 2);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,0.5) and (5.52,0.5) .. (5.52,1) .. controls (5.52, 1.5) and (5.5, 1.5) .. (5.5, 2);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,0.5) and (5.56,0.5) .. (5.56,1) .. controls (5.56, 1.5) and (6.5, 1.5) .. (6.5, 2);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,0.5) and (5.4,0.5) .. (5.4,1) .. controls (5.4, 1.5) and (3.5, 1.5) .. (3.5, 2);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,0.5) and (5.44,0.5) .. (5.44,1) .. controls (5.44, 1.5) and (4.5, 1.5) .. (4.5, 2);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,0.5) and (5.48,0.5) .. (5.48,1) .. controls (5.48, 1.5) and (5.5, 1.5) .. (5.5, 2);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,0.5) and (6.52,0.5) .. (6.52,1) .. controls (6.52, 1.5) and (6.5, 1.5) .. (6.5, 2);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,0.5) and (6.56,0.5) .. (6.56,1) .. controls (6.56, 1.5) and (7.5, 1.5) .. (7.5, 2);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,0.5) and (6.4,0.5) .. (6.4,1) .. controls (6.4, 1.5) and (4.5, 1.5) .. (4.5, 2);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,0.5) and (6.45,0.5) .. (6.45,1) .. controls (6.45, 1.5) and (5.5, 1.5) .. (5.5, 2);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,0.5) and (6.5,0.5) .. (6.5,1) .. controls (6.5, 1.5) and (6.5, 1.5) .. (6.5, 2);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,0.5) and (7.55,0.5) .. (7.55,1) .. controls (7.55, 1.5) and (7.5, 1.5) .. (7.5, 2);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,0.5) and (7.4,0.5) .. (7.4,1) .. controls (7.4, 1.5) and (5.5, 1.5) .. (5.5, 2);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,0.5) and (7.4666667,0.5) .. (7.4666667,1) .. controls (7.4666667, 1.5) and (6.5, 1.5) .. (6.5, 2);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,0.5) and (7.5333333,0.5) .. (7.5333333,1) .. controls (7.5333333, 1.5) and (7.5, 1.5) .. (7.5, 2);
+
+	\draw[line cap=rect] (0,1) -- (\linewidth-\pgflinewidth,1);	\draw[line cap=rect] (0,2) -- (\linewidth-\pgflinewidth,2);	\draw[thick,black] (0,1) .. controls (0,1.5) and (0,1.5) .. (0,2);
+	\draw[thick,black] (1,1) .. controls (1,1.5) and (1,1.5) .. (1,2);
+	\draw[thick,black] (2,1) .. controls (2,1.5) and (3,1.5) .. (3,2);
+	\draw[thick,black] (3,1) .. controls (3,1.5) and (2,1.5) .. (2,2);
+	\draw[thick,black] (4,1) .. controls (4,1.5) and (5,1.5) .. (5,2);
+	\draw[thick,black] (5,1) .. controls (5,1.5) and (4,1.5) .. (4,2);
+	\draw[thick,black] (6,1) .. controls (6,1.5) and (6,1.5) .. (6,2);
+	\draw[thick,black] (7,1) .. controls (7,1.5) and (7,1.5) .. (7,2);
+
+	\draw[line cap=rect] (0,2) -- (\linewidth-\pgflinewidth,2);	\draw[line cap=rect] (0,3) -- (\linewidth-\pgflinewidth,3);	\draw[thick,black] (0,2) .. controls (0,2.5) and (0,2.5) .. (0,3);
+	\draw[thick,black] (1,2) .. controls (1,2.5) and (1,2.5) .. (1,3);
+	\draw[thick,black] (2,2) .. controls (2,2.5) and (2,2.5) .. (2,3);
+	\draw[thick,black] (3,2) .. controls (3,2.5) and (3,2.5) .. (3,3);
+	\draw[thick,black] (4,2) .. controls (4,2.5) and (4,2.5) .. (4,3);
+	\draw[thick,black] (5,2) .. controls (5,2.5) and (6,2.5) .. (6,3);
+	\draw[thick,black] (6,2) .. controls (6,2.5) and (5,2.5) .. (5,3);
+	\draw[thick,black] (7,2) .. controls (7,2.5) and (7,2.5) .. (7,3);
+
+	\draw[line cap=rect] (0,2) -- (\linewidth-\pgflinewidth,2);	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[thick,green,draw opacity=0.1] (-0.5,2) .. controls (-0.5,2.5) and (-0.6,2.5) .. (-0.6,3) .. controls (-0.6, 3.5) and (-0.5, 3.5) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (-0.5,2) .. controls (-0.5,2.5) and (-0.53333336,2.5) .. (-0.53333336,3) .. controls (-0.53333336, 3.5) and (0.5, 3.5) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (-0.5,2) .. controls (-0.5,2.5) and (0.53333336,2.5) .. (0.53333336,3) .. controls (0.53333336, 3.5) and (1.5, 3.5) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,2) .. controls (0.5,2.5) and (0.4,2.5) .. (0.4,3) .. controls (0.4, 3.5) and (-0.5, 3.5) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,2) .. controls (0.5,2.5) and (1.45,2.5) .. (1.45,3) .. controls (1.45, 3.5) and (0.5, 3.5) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,2) .. controls (0.5,2.5) and (1.5,2.5) .. (1.5,3) .. controls (1.5, 3.5) and (1.5, 3.5) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,2) .. controls (0.5,2.5) and (1.55,2.5) .. (1.55,3) .. controls (1.55, 3.5) and (2.5, 3.5) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,2) .. controls (1.5,2.5) and (1.4,2.5) .. (1.4,3) .. controls (1.4, 3.5) and (-0.5, 3.5) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,2) .. controls (1.5,2.5) and (1.44,2.5) .. (1.44,3) .. controls (1.44, 3.5) and (0.5, 3.5) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,2) .. controls (1.5,2.5) and (1.48,2.5) .. (1.48,3) .. controls (1.48, 3.5) and (1.5, 3.5) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,2) .. controls (1.5,2.5) and (1.52,2.5) .. (1.52,3) .. controls (1.52, 3.5) and (2.5, 3.5) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,2) .. controls (1.5,2.5) and (2.56,2.5) .. (2.56,3) .. controls (2.56, 3.5) and (3.5, 3.5) .. (3.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,2) .. controls (2.5,2.5) and (2.4,2.5) .. (2.4,3) .. controls (2.4, 3.5) and (0.5, 3.5) .. (0.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,2) .. controls (2.5,2.5) and (2.44,2.5) .. (2.44,3) .. controls (2.44, 3.5) and (1.5, 3.5) .. (1.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,2) .. controls (2.5,2.5) and (3.48,2.5) .. (3.48,3) .. controls (3.48, 3.5) and (2.5, 3.5) .. (2.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,2) .. controls (2.5,2.5) and (3.52,2.5) .. (3.52,3) .. controls (3.52, 3.5) and (3.5, 3.5) .. (3.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,2) .. controls (2.5,2.5) and (3.56,2.5) .. (3.56,3) .. controls (3.56, 3.5) and (4.5, 3.5) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,2) .. controls (3.5,2.5) and (3.4,2.5) .. (3.4,3) .. controls (3.4, 3.5) and (1.5, 3.5) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,2) .. controls (3.5,2.5) and (3.44,2.5) .. (3.44,3) .. controls (3.44, 3.5) and (2.5, 3.5) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,2) .. controls (3.5,2.5) and (3.48,2.5) .. (3.48,3) .. controls (3.48, 3.5) and (3.5, 3.5) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,2) .. controls (3.5,2.5) and (4.52,2.5) .. (4.52,3) .. controls (4.52, 3.5) and (4.5, 3.5) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,2) .. controls (3.5,2.5) and (4.56,2.5) .. (4.56,3) .. controls (4.56, 3.5) and (5.5, 3.5) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,2) .. controls (4.5,2.5) and (4.4,2.5) .. (4.4,3) .. controls (4.4, 3.5) and (2.5, 3.5) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,2) .. controls (4.5,2.5) and (4.44,2.5) .. (4.44,3) .. controls (4.44, 3.5) and (3.5, 3.5) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,2) .. controls (4.5,2.5) and (4.48,2.5) .. (4.48,3) .. controls (4.48, 3.5) and (4.5, 3.5) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,2) .. controls (4.5,2.5) and (5.52,2.5) .. (5.52,3) .. controls (5.52, 3.5) and (5.5, 3.5) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,2) .. controls (4.5,2.5) and (5.56,2.5) .. (5.56,3) .. controls (5.56, 3.5) and (6.5, 3.5) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,2) .. controls (5.5,2.5) and (4.4,2.5) .. (4.4,3) .. controls (4.4, 3.5) and (3.5, 3.5) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,2) .. controls (5.5,2.5) and (4.44,2.5) .. (4.44,3) .. controls (4.44, 3.5) and (4.5, 3.5) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,2) .. controls (5.5,2.5) and (6.48,2.5) .. (6.48,3) .. controls (6.48, 3.5) and (5.5, 3.5) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,2) .. controls (5.5,2.5) and (6.52,2.5) .. (6.52,3) .. controls (6.52, 3.5) and (6.5, 3.5) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,2) .. controls (5.5,2.5) and (6.56,2.5) .. (6.56,3) .. controls (6.56, 3.5) and (7.5, 3.5) .. (7.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,2) .. controls (6.5,2.5) and (6.4,2.5) .. (6.4,3) .. controls (6.4, 3.5) and (4.5, 3.5) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,2) .. controls (6.5,2.5) and (6.45,2.5) .. (6.45,3) .. controls (6.45, 3.5) and (5.5, 3.5) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,2) .. controls (6.5,2.5) and (6.5,2.5) .. (6.5,3) .. controls (6.5, 3.5) and (6.5, 3.5) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,2) .. controls (6.5,2.5) and (7.55,2.5) .. (7.55,3) .. controls (7.55, 3.5) and (7.5, 3.5) .. (7.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,2) .. controls (7.5,2.5) and (7.4,2.5) .. (7.4,3) .. controls (7.4, 3.5) and (5.5, 3.5) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,2) .. controls (7.5,2.5) and (7.4666667,2.5) .. (7.4666667,3) .. controls (7.4666667, 3.5) and (6.5, 3.5) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,2) .. controls (7.5,2.5) and (7.5333333,2.5) .. (7.5333333,3) .. controls (7.5333333, 3.5) and (7.5, 3.5) .. (7.5, 4);
+
+	\draw[line cap=rect] (0,3) -- (\linewidth-\pgflinewidth,3);	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[thick,black] (0,3) .. controls (0,3.5) and (1,3.5) .. (1,4);
+	\draw[thick,black] (1,3) .. controls (1,3.5) and (0,3.5) .. (0,4);
+	\draw[thick,black] (2,3) .. controls (2,3.5) and (3,3.5) .. (3,4);
+	\draw[thick,black] (3,3) .. controls (3,3.5) and (2,3.5) .. (2,4);
+	\draw[thick,black] (4,3) .. controls (4,3.5) and (4,3.5) .. (4,4);
+	\draw[thick,black] (5,3) .. controls (5,3.5) and (5,3.5) .. (5,4);
+	\draw[thick,black] (6,3) .. controls (6,3.5) and (6,3.5) .. (6,4);
+	\draw[thick,black] (7,3) .. controls (7,3.5) and (7,3.5) .. (7,4);
+
+	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[line cap=rect] (0,5) -- (\linewidth-\pgflinewidth,5);	\draw[thick,black] (0,4) .. controls (0,4.5) and (0,4.5) .. (0,5);
+	\draw[thick,black] (1,4) .. controls (1,4.5) and (1,4.5) .. (1,5);
+	\draw[thick,black] (2,4) .. controls (2,4.5) and (2,4.5) .. (2,5);
+	\draw[thick,black] (3,4) .. controls (3,4.5) and (4,4.5) .. (4,5);
+	\draw[thick,black] (4,4) .. controls (4,4.5) and (3,4.5) .. (3,5);
+	\draw[thick,black] (5,4) .. controls (5,4.5) and (6,4.5) .. (6,5);
+	\draw[thick,black] (6,4) .. controls (6,4.5) and (5,4.5) .. (5,5);
+	\draw[thick,black] (7,4) .. controls (7,4.5) and (7,4.5) .. (7,5);
+
+	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[line cap=rect] (0,6) -- (\linewidth-\pgflinewidth,6);	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,4.5) and (-0.6,4.5) .. (-0.6,5) .. controls (-0.6, 5.5) and (-0.5, 5.5) .. (-0.5, 6);
+	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,4.5) and (0.46666667,4.5) .. (0.46666667,5) .. controls (0.46666667, 5.5) and (0.5, 5.5) .. (0.5, 6);
+	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,4.5) and (0.53333336,4.5) .. (0.53333336,5) .. controls (0.53333336, 5.5) and (1.5, 5.5) .. (1.5, 6);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,4.5) and (0.4,4.5) .. (0.4,5) .. controls (0.4, 5.5) and (-0.5, 5.5) .. (-0.5, 6);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,4.5) and (0.45,4.5) .. (0.45,5) .. controls (0.45, 5.5) and (0.5, 5.5) .. (0.5, 6);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,4.5) and (1.5,4.5) .. (1.5,5) .. controls (1.5, 5.5) and (1.5, 5.5) .. (1.5, 6);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,4.5) and (1.55,4.5) .. (1.55,5) .. controls (1.55, 5.5) and (2.5, 5.5) .. (2.5, 6);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,4.5) and (1.4,4.5) .. (1.4,5) .. controls (1.4, 5.5) and (-0.5, 5.5) .. (-0.5, 6);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,4.5) and (1.44,4.5) .. (1.44,5) .. controls (1.44, 5.5) and (0.5, 5.5) .. (0.5, 6);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,4.5) and (1.48,4.5) .. (1.48,5) .. controls (1.48, 5.5) and (1.5, 5.5) .. (1.5, 6);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,4.5) and (2.52,4.5) .. (2.52,5) .. controls (2.52, 5.5) and (2.5, 5.5) .. (2.5, 6);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,4.5) and (2.56,4.5) .. (2.56,5) .. controls (2.56, 5.5) and (3.5, 5.5) .. (3.5, 6);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,4.5) and (2.4,4.5) .. (2.4,5) .. controls (2.4, 5.5) and (0.5, 5.5) .. (0.5, 6);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,4.5) and (2.44,4.5) .. (2.44,5) .. controls (2.44, 5.5) and (1.5, 5.5) .. (1.5, 6);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,4.5) and (2.48,4.5) .. (2.48,5) .. controls (2.48, 5.5) and (2.5, 5.5) .. (2.5, 6);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,4.5) and (3.52,4.5) .. (3.52,5) .. controls (3.52, 5.5) and (3.5, 5.5) .. (3.5, 6);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,4.5) and (3.56,4.5) .. (3.56,5) .. controls (3.56, 5.5) and (4.5, 5.5) .. (4.5, 6);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,4.5) and (2.4,4.5) .. (2.4,5) .. controls (2.4, 5.5) and (1.5, 5.5) .. (1.5, 6);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,4.5) and (2.44,4.5) .. (2.44,5) .. controls (2.44, 5.5) and (2.5, 5.5) .. (2.5, 6);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,4.5) and (4.48,4.5) .. (4.48,5) .. controls (4.48, 5.5) and (3.5, 5.5) .. (3.5, 6);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,4.5) and (4.52,4.5) .. (4.52,5) .. controls (4.52, 5.5) and (4.5, 5.5) .. (4.5, 6);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,4.5) and (4.56,4.5) .. (4.56,5) .. controls (4.56, 5.5) and (5.5, 5.5) .. (5.5, 6);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,4.5) and (4.4,4.5) .. (4.4,5) .. controls (4.4, 5.5) and (2.5, 5.5) .. (2.5, 6);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,4.5) and (4.44,4.5) .. (4.44,5) .. controls (4.44, 5.5) and (3.5, 5.5) .. (3.5, 6);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,4.5) and (4.48,4.5) .. (4.48,5) .. controls (4.48, 5.5) and (4.5, 5.5) .. (4.5, 6);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,4.5) and (5.52,4.5) .. (5.52,5) .. controls (5.52, 5.5) and (5.5, 5.5) .. (5.5, 6);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,4.5) and (5.56,4.5) .. (5.56,5) .. controls (5.56, 5.5) and (6.5, 5.5) .. (6.5, 6);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,4.5) and (4.4,4.5) .. (4.4,5) .. controls (4.4, 5.5) and (3.5, 5.5) .. (3.5, 6);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,4.5) and (4.44,4.5) .. (4.44,5) .. controls (4.44, 5.5) and (4.5, 5.5) .. (4.5, 6);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,4.5) and (6.48,4.5) .. (6.48,5) .. controls (6.48, 5.5) and (5.5, 5.5) .. (5.5, 6);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,4.5) and (6.52,4.5) .. (6.52,5) .. controls (6.52, 5.5) and (6.5, 5.5) .. (6.5, 6);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,4.5) and (6.56,4.5) .. (6.56,5) .. controls (6.56, 5.5) and (7.5, 5.5) .. (7.5, 6);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,4.5) and (6.4,4.5) .. (6.4,5) .. controls (6.4, 5.5) and (4.5, 5.5) .. (4.5, 6);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,4.5) and (6.45,4.5) .. (6.45,5) .. controls (6.45, 5.5) and (5.5, 5.5) .. (5.5, 6);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,4.5) and (6.5,4.5) .. (6.5,5) .. controls (6.5, 5.5) and (6.5, 5.5) .. (6.5, 6);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,4.5) and (7.55,4.5) .. (7.55,5) .. controls (7.55, 5.5) and (7.5, 5.5) .. (7.5, 6);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,4.5) and (7.4,4.5) .. (7.4,5) .. controls (7.4, 5.5) and (5.5, 5.5) .. (5.5, 6);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,4.5) and (7.4666667,4.5) .. (7.4666667,5) .. controls (7.4666667, 5.5) and (6.5, 5.5) .. (6.5, 6);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,4.5) and (7.5333333,4.5) .. (7.5333333,5) .. controls (7.5333333, 5.5) and (7.5, 5.5) .. (7.5, 6);
+
+	\draw[line cap=rect] (0,5) -- (\linewidth-\pgflinewidth,5);	\draw[line cap=rect] (0,6) -- (\linewidth-\pgflinewidth,6);	\draw[thick,black] (0,5) .. controls (0,5.5) and (0,5.5) .. (0,6);
+	\draw[thick,black] (1,5) .. controls (1,5.5) and (1,5.5) .. (1,6);
+	\draw[thick,black] (2,5) .. controls (2,5.5) and (2,5.5) .. (2,6);
+	\draw[thick,black] (3,5) .. controls (3,5.5) and (3,5.5) .. (3,6);
+	\draw[thick,black] (4,5) .. controls (4,5.5) and (4,5.5) .. (4,6);
+	\draw[thick,black] (5,5) .. controls (5,5.5) and (5,5.5) .. (5,6);
+	\draw[thick,black] (6,5) .. controls (6,5.5) and (6,5.5) .. (6,6);
+	\draw[thick,black] (7,5) .. controls (7,5.5) and (7,5.5) .. (7,6);
+
+	\draw[line cap=rect] (0,6) -- (\linewidth-\pgflinewidth,6);	\draw[line cap=rect] (0,7) -- (\linewidth-\pgflinewidth,7);	\draw[thick,black] (0,6) .. controls (0,6.5) and (0,6.5) .. (0,7);
+	\draw[thick,black] (1,6) .. controls (1,6.5) and (1,6.5) .. (1,7);
+	\draw[thick,black] (2,6) .. controls (2,6.5) and (2,6.5) .. (2,7);
+	\draw[thick,black] (3,6) .. controls (3,6.5) and (4,6.5) .. (4,7);
+	\draw[thick,black] (4,6) .. controls (4,6.5) and (3,6.5) .. (3,7);
+	\draw[thick,black] (5,6) .. controls (5,6.5) and (5,6.5) .. (5,7);
+	\draw[thick,black] (6,6) .. controls (6,6.5) and (6,6.5) .. (6,7);
+	\draw[thick,black] (7,6) .. controls (7,6.5) and (7,6.5) .. (7,7);
+
+	\draw[line cap=rect] (0,6) -- (\linewidth-\pgflinewidth,6);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,green,draw opacity=0.1] (-0.5,6) .. controls (-0.5,6.5) and (-0.6,6.5) .. (-0.6,7) .. controls (-0.6, 7.5) and (-0.5, 7.5) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,6) .. controls (-0.5,6.5) and (0.46666667,6.5) .. (0.46666667,7) .. controls (0.46666667, 7.5) and (0.5, 7.5) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,6) .. controls (-0.5,6.5) and (0.53333336,6.5) .. (0.53333336,7) .. controls (0.53333336, 7.5) and (1.5, 7.5) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,6) .. controls (0.5,6.5) and (0.4,6.5) .. (0.4,7) .. controls (0.4, 7.5) and (-0.5, 7.5) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,6) .. controls (0.5,6.5) and (0.45,6.5) .. (0.45,7) .. controls (0.45, 7.5) and (0.5, 7.5) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,6) .. controls (0.5,6.5) and (1.5,6.5) .. (1.5,7) .. controls (1.5, 7.5) and (1.5, 7.5) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,6) .. controls (0.5,6.5) and (1.55,6.5) .. (1.55,7) .. controls (1.55, 7.5) and (2.5, 7.5) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,6) .. controls (1.5,6.5) and (1.4,6.5) .. (1.4,7) .. controls (1.4, 7.5) and (-0.5, 7.5) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,6) .. controls (1.5,6.5) and (1.44,6.5) .. (1.44,7) .. controls (1.44, 7.5) and (0.5, 7.5) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,6) .. controls (1.5,6.5) and (1.48,6.5) .. (1.48,7) .. controls (1.48, 7.5) and (1.5, 7.5) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,6) .. controls (1.5,6.5) and (2.52,6.5) .. (2.52,7) .. controls (2.52, 7.5) and (2.5, 7.5) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,6) .. controls (1.5,6.5) and (2.56,6.5) .. (2.56,7) .. controls (2.56, 7.5) and (3.5, 7.5) .. (3.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,6) .. controls (2.5,6.5) and (2.4,6.5) .. (2.4,7) .. controls (2.4, 7.5) and (0.5, 7.5) .. (0.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,6) .. controls (2.5,6.5) and (2.44,6.5) .. (2.44,7) .. controls (2.44, 7.5) and (1.5, 7.5) .. (1.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,6) .. controls (2.5,6.5) and (2.48,6.5) .. (2.48,7) .. controls (2.48, 7.5) and (2.5, 7.5) .. (2.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,6) .. controls (2.5,6.5) and (3.52,6.5) .. (3.52,7) .. controls (3.52, 7.5) and (3.5, 7.5) .. (3.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,6) .. controls (2.5,6.5) and (3.56,6.5) .. (3.56,7) .. controls (3.56, 7.5) and (4.5, 7.5) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,6) .. controls (3.5,6.5) and (2.4,6.5) .. (2.4,7) .. controls (2.4, 7.5) and (1.5, 7.5) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,6) .. controls (3.5,6.5) and (2.44,6.5) .. (2.44,7) .. controls (2.44, 7.5) and (2.5, 7.5) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,6) .. controls (3.5,6.5) and (4.48,6.5) .. (4.48,7) .. controls (4.48, 7.5) and (3.5, 7.5) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,6) .. controls (3.5,6.5) and (4.52,6.5) .. (4.52,7) .. controls (4.52, 7.5) and (4.5, 7.5) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,6) .. controls (3.5,6.5) and (4.56,6.5) .. (4.56,7) .. controls (4.56, 7.5) and (5.5, 7.5) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,6) .. controls (4.5,6.5) and (4.4,6.5) .. (4.4,7) .. controls (4.4, 7.5) and (2.5, 7.5) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,6) .. controls (4.5,6.5) and (4.44,6.5) .. (4.44,7) .. controls (4.44, 7.5) and (3.5, 7.5) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,6) .. controls (4.5,6.5) and (4.48,6.5) .. (4.48,7) .. controls (4.48, 7.5) and (4.5, 7.5) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,6) .. controls (4.5,6.5) and (5.52,6.5) .. (5.52,7) .. controls (5.52, 7.5) and (5.5, 7.5) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,6) .. controls (4.5,6.5) and (5.56,6.5) .. (5.56,7) .. controls (5.56, 7.5) and (6.5, 7.5) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,6) .. controls (5.5,6.5) and (5.4,6.5) .. (5.4,7) .. controls (5.4, 7.5) and (3.5, 7.5) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,6) .. controls (5.5,6.5) and (5.44,6.5) .. (5.44,7) .. controls (5.44, 7.5) and (4.5, 7.5) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,6) .. controls (5.5,6.5) and (5.48,6.5) .. (5.48,7) .. controls (5.48, 7.5) and (5.5, 7.5) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,6) .. controls (5.5,6.5) and (6.52,6.5) .. (6.52,7) .. controls (6.52, 7.5) and (6.5, 7.5) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,6) .. controls (5.5,6.5) and (6.56,6.5) .. (6.56,7) .. controls (6.56, 7.5) and (7.5, 7.5) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,6) .. controls (6.5,6.5) and (6.4,6.5) .. (6.4,7) .. controls (6.4, 7.5) and (4.5, 7.5) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,6) .. controls (6.5,6.5) and (6.45,6.5) .. (6.45,7) .. controls (6.45, 7.5) and (5.5, 7.5) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,6) .. controls (6.5,6.5) and (6.5,6.5) .. (6.5,7) .. controls (6.5, 7.5) and (6.5, 7.5) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,6) .. controls (6.5,6.5) and (7.55,6.5) .. (7.55,7) .. controls (7.55, 7.5) and (7.5, 7.5) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,6) .. controls (7.5,6.5) and (7.4,6.5) .. (7.4,7) .. controls (7.4, 7.5) and (5.5, 7.5) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,6) .. controls (7.5,6.5) and (7.4666667,6.5) .. (7.4666667,7) .. controls (7.4666667, 7.5) and (6.5, 7.5) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,6) .. controls (7.5,6.5) and (7.5333333,6.5) .. (7.5333333,7) .. controls (7.5333333, 7.5) and (7.5, 7.5) .. (7.5, 8);
+
+	\draw[line cap=rect] (0,7) -- (\linewidth-\pgflinewidth,7);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,black] (0,7) .. controls (0,7.5) and (0,7.5) .. (0,8);
+	\draw[thick,black] (1,7) .. controls (1,7.5) and (1,7.5) .. (1,8);
+	\draw[thick,black] (2,7) .. controls (2,7.5) and (2,7.5) .. (2,8);
+	\draw[thick,black] (3,7) .. controls (3,7.5) and (3,7.5) .. (3,8);
+	\draw[thick,black] (4,7) .. controls (4,7.5) and (4,7.5) .. (4,8);
+	\draw[thick,black] (5,7) .. controls (5,7.5) and (5,7.5) .. (5,8);
+	\draw[thick,black] (6,7) .. controls (6,7.5) and (6,7.5) .. (6,8);
+	\draw[thick,black] (7,7) .. controls (7,7.5) and (7,7.5) .. (7,8);
+
+\end{tikzpicture}
+\vfill
+
+\begin{tikzpicture}[y=-1cm]
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,2) -- (\linewidth-\pgflinewidth,2);	\draw[thick,black] (0,0) .. controls (0,1) and (0,1) .. (0,2);
+	\draw[thick,black] (1,0) .. controls (1,1) and (1,1) .. (1,2);
+	\draw[thick,black] (2,0) .. controls (2,1) and (3,1) .. (3,2);
+	\draw[thick,black] (3,0) .. controls (3,1) and (2,1) .. (2,2);
+	\draw[thick,black] (4,0) .. controls (4,1) and (5,1) .. (5,2);
+	\draw[thick,black] (5,0) .. controls (5,1) and (4,1) .. (4,2);
+	\draw[thick,black] (6,0) .. controls (6,1) and (6,1) .. (6,2);
+	\draw[thick,black] (7,0) .. controls (7,1) and (7,1) .. (7,2);
+
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,1) and (-0.6,1) .. (-0.6,2) .. controls (-0.6, 3) and (-0.5, 3) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,1) and (-0.56,1) .. (-0.56,2) .. controls (-0.56, 3) and (0.5, 3) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,1) and (1.48,1) .. (1.48,2) .. controls (1.48, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,1) and (1.52,1) .. (1.52,2) .. controls (1.52, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,1) and (1.56,1) .. (1.56,2) .. controls (1.56, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,1) and (0.4,1) .. (0.4,2) .. controls (0.4, 3) and (-0.5, 3) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,1) and (1.4333333,1) .. (1.4333333,2) .. controls (1.4333333, 3) and (0.5, 3) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,1) and (1.4666667,1) .. (1.4666667,2) .. controls (1.4666667, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,1) and (1.5,1) .. (1.5,2) .. controls (1.5, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,1) and (2.5333333,1) .. (2.5333333,2) .. controls (2.5333333, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,1) and (2.5666666,1) .. (2.5666666,2) .. controls (2.5666666, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (1.4,1) .. (1.4,2) .. controls (1.4, 3) and (-0.5, 3) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (1.4285715,1) .. (1.4285715,2) .. controls (1.4285715, 3) and (0.5, 3) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (1.4571428,1) .. (1.4571428,2) .. controls (1.4571428, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (1.4857143,1) .. (1.4857143,2) .. controls (1.4857143, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (3.5142858,1) .. (3.5142858,2) .. controls (3.5142858, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (3.5428572,1) .. (3.5428572,2) .. controls (3.5428572, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,1) and (3.5714285,1) .. (3.5714285,2) .. controls (3.5714285, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (1.4,1) .. (1.4,2) .. controls (1.4, 3) and (-0.5, 3) .. (-0.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (1.425,1) .. (1.425,2) .. controls (1.425, 3) and (0.5, 3) .. (0.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (1.45,1) .. (1.45,2) .. controls (1.45, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (1.475,1) .. (1.475,2) .. controls (1.475, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (3.5,1) .. (3.5,2) .. controls (3.5, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (4.525,1) .. (4.525,2) .. controls (4.525, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (4.55,1) .. (4.55,2) .. controls (4.55, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,1) and (4.575,1) .. (4.575,2) .. controls (4.575, 3) and (6.5, 3) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (3.4,1) .. (3.4,2) .. controls (3.4, 3) and (-0.5, 3) .. (-0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (3.4222221,1) .. (3.4222221,2) .. controls (3.4222221, 3) and (0.5, 3) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (3.4444444,1) .. (3.4444444,2) .. controls (3.4444444, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (3.4666667,1) .. (3.4666667,2) .. controls (3.4666667, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (3.488889,1) .. (3.488889,2) .. controls (3.488889, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (4.5111113,1) .. (4.5111113,2) .. controls (4.5111113, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (4.5333333,1) .. (4.5333333,2) .. controls (4.5333333, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (5.5555553,1) .. (5.5555553,2) .. controls (5.5555553, 3) and (6.5, 3) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,1) and (5.577778,1) .. (5.577778,2) .. controls (5.577778, 3) and (7.5, 3) .. (7.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (3.4,1) .. (3.4,2) .. controls (3.4, 3) and (0.5, 3) .. (0.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (3.425,1) .. (3.425,2) .. controls (3.425, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (3.45,1) .. (3.45,2) .. controls (3.45, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (3.475,1) .. (3.475,2) .. controls (3.475, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (5.5,1) .. (5.5,2) .. controls (5.5, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (6.525,1) .. (6.525,2) .. controls (6.525, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (6.55,1) .. (6.55,2) .. controls (6.55, 3) and (6.5, 3) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,1) and (6.575,1) .. (6.575,2) .. controls (6.575, 3) and (7.5, 3) .. (7.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (5.4,1) .. (5.4,2) .. controls (5.4, 3) and (1.5, 3) .. (1.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (5.428571,1) .. (5.428571,2) .. controls (5.428571, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (5.457143,1) .. (5.457143,2) .. controls (5.457143, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (5.4857144,1) .. (5.4857144,2) .. controls (5.4857144, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (6.5142856,1) .. (6.5142856,2) .. controls (6.5142856, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (6.542857,1) .. (6.542857,2) .. controls (6.542857, 3) and (6.5, 3) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,1) and (7.571429,1) .. (7.571429,2) .. controls (7.571429, 3) and (7.5, 3) .. (7.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,1) and (6.4,1) .. (6.4,2) .. controls (6.4, 3) and (2.5, 3) .. (2.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,1) and (6.4333334,1) .. (6.4333334,2) .. controls (6.4333334, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,1) and (6.4666667,1) .. (6.4666667,2) .. controls (6.4666667, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,1) and (6.5,1) .. (6.5,2) .. controls (6.5, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,1) and (6.5333333,1) .. (6.5333333,2) .. controls (6.5333333, 3) and (6.5, 3) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,1) and (7.5666666,1) .. (7.5666666,2) .. controls (7.5666666, 3) and (7.5, 3) .. (7.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,1) and (7.4,1) .. (7.4,2) .. controls (7.4, 3) and (3.5, 3) .. (3.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,1) and (7.44,1) .. (7.44,2) .. controls (7.44, 3) and (4.5, 3) .. (4.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,1) and (7.48,1) .. (7.48,2) .. controls (7.48, 3) and (5.5, 3) .. (5.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,1) and (7.52,1) .. (7.52,2) .. controls (7.52, 3) and (6.5, 3) .. (6.5, 4);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,1) and (7.56,1) .. (7.56,2) .. controls (7.56, 3) and (7.5, 3) .. (7.5, 4);
+
+	\draw[line cap=rect] (0,2) -- (\linewidth-\pgflinewidth,2);	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[thick,black] (0,2) .. controls (0,3) and (1,3) .. (1,4);
+	\draw[thick,black] (1,2) .. controls (1,3) and (0,3) .. (0,4);
+	\draw[thick,black] (2,2) .. controls (2,3) and (3,3) .. (3,4);
+	\draw[thick,black] (3,2) .. controls (3,3) and (2,3) .. (2,4);
+	\draw[thick,black] (4,2) .. controls (4,3) and (4,3) .. (4,4);
+	\draw[thick,black] (5,2) .. controls (5,3) and (6,3) .. (6,4);
+	\draw[thick,black] (6,2) .. controls (6,3) and (5,3) .. (5,4);
+	\draw[thick,black] (7,2) .. controls (7,3) and (7,3) .. (7,4);
+
+	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[line cap=rect] (0,6) -- (\linewidth-\pgflinewidth,6);	\draw[thick,black] (0,4) .. controls (0,5) and (0,5) .. (0,6);
+	\draw[thick,black] (1,4) .. controls (1,5) and (1,5) .. (1,6);
+	\draw[thick,black] (2,4) .. controls (2,5) and (2,5) .. (2,6);
+	\draw[thick,black] (3,4) .. controls (3,5) and (4,5) .. (4,6);
+	\draw[thick,black] (4,4) .. controls (4,5) and (3,5) .. (3,6);
+	\draw[thick,black] (5,4) .. controls (5,5) and (6,5) .. (6,6);
+	\draw[thick,black] (6,4) .. controls (6,5) and (5,5) .. (5,6);
+	\draw[thick,black] (7,4) .. controls (7,5) and (7,5) .. (7,6);
+
+	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,5) and (-0.6,5) .. (-0.6,6) .. controls (-0.6, 7) and (-0.5, 7) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,5) and (0.44,5) .. (0.44,6) .. controls (0.44, 7) and (0.5, 7) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,5) and (1.48,5) .. (1.48,6) .. controls (1.48, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,5) and (1.52,5) .. (1.52,6) .. controls (1.52, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,4) .. controls (-0.5,5) and (1.56,5) .. (1.56,6) .. controls (1.56, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,5) and (0.4,5) .. (0.4,6) .. controls (0.4, 7) and (-0.5, 7) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,5) and (0.43333334,5) .. (0.43333334,6) .. controls (0.43333334, 7) and (0.5, 7) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,5) and (1.4666667,5) .. (1.4666667,6) .. controls (1.4666667, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,5) and (2.5,5) .. (2.5,6) .. controls (2.5, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,5) and (2.5333333,5) .. (2.5333333,6) .. controls (2.5333333, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,4) .. controls (0.5,5) and (2.5666666,5) .. (2.5666666,6) .. controls (2.5666666, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (1.4,5) .. (1.4,6) .. controls (1.4, 7) and (-0.5, 7) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (1.4285715,5) .. (1.4285715,6) .. controls (1.4285715, 7) and (0.5, 7) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (1.4571428,5) .. (1.4571428,6) .. controls (1.4571428, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (2.4857142,5) .. (2.4857142,6) .. controls (2.4857142, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (2.5142858,5) .. (2.5142858,6) .. controls (2.5142858, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (3.5428572,5) .. (3.5428572,6) .. controls (3.5428572, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,4) .. controls (1.5,5) and (3.5714285,5) .. (3.5714285,6) .. controls (3.5714285, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (2.4,5) .. (2.4,6) .. controls (2.4, 7) and (-0.5, 7) .. (-0.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (2.425,5) .. (2.425,6) .. controls (2.425, 7) and (0.5, 7) .. (0.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (2.45,5) .. (2.45,6) .. controls (2.45, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (2.475,5) .. (2.475,6) .. controls (2.475, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (2.5,5) .. (2.5,6) .. controls (2.5, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (4.525,5) .. (4.525,6) .. controls (4.525, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (4.55,5) .. (4.55,6) .. controls (4.55, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,4) .. controls (2.5,5) and (4.575,5) .. (4.575,6) .. controls (4.575, 7) and (6.5, 7) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (2.4,5) .. (2.4,6) .. controls (2.4, 7) and (-0.5, 7) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (2.4222221,5) .. (2.4222221,6) .. controls (2.4222221, 7) and (0.5, 7) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (2.4444444,5) .. (2.4444444,6) .. controls (2.4444444, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (2.4666667,5) .. (2.4666667,6) .. controls (2.4666667, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (2.488889,5) .. (2.488889,6) .. controls (2.488889, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (4.5111113,5) .. (4.5111113,6) .. controls (4.5111113, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (5.5333333,5) .. (5.5333333,6) .. controls (5.5333333, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (5.5555553,5) .. (5.5555553,6) .. controls (5.5555553, 7) and (6.5, 7) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,4) .. controls (3.5,5) and (5.577778,5) .. (5.577778,6) .. controls (5.577778, 7) and (7.5, 7) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (4.4,5) .. (4.4,6) .. controls (4.4, 7) and (0.5, 7) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (4.425,5) .. (4.425,6) .. controls (4.425, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (4.45,5) .. (4.45,6) .. controls (4.45, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (4.475,5) .. (4.475,6) .. controls (4.475, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (4.5,5) .. (4.5,6) .. controls (4.5, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (5.525,5) .. (5.525,6) .. controls (5.525, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (6.55,5) .. (6.55,6) .. controls (6.55, 7) and (6.5, 7) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,4) .. controls (4.5,5) and (6.575,5) .. (6.575,6) .. controls (6.575, 7) and (7.5, 7) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (4.4,5) .. (4.4,6) .. controls (4.4, 7) and (1.5, 7) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (4.428571,5) .. (4.428571,6) .. controls (4.428571, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (4.457143,5) .. (4.457143,6) .. controls (4.457143, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (4.4857144,5) .. (4.4857144,6) .. controls (4.4857144, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (6.5142856,5) .. (6.5142856,6) .. controls (6.5142856, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (6.542857,5) .. (6.542857,6) .. controls (6.542857, 7) and (6.5, 7) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,4) .. controls (5.5,5) and (7.571429,5) .. (7.571429,6) .. controls (7.571429, 7) and (7.5, 7) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,5) and (6.4,5) .. (6.4,6) .. controls (6.4, 7) and (2.5, 7) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,5) and (6.4333334,5) .. (6.4333334,6) .. controls (6.4333334, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,5) and (6.4666667,5) .. (6.4666667,6) .. controls (6.4666667, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,5) and (6.5,5) .. (6.5,6) .. controls (6.5, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,5) and (6.5333333,5) .. (6.5333333,6) .. controls (6.5333333, 7) and (6.5, 7) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,4) .. controls (6.5,5) and (7.5666666,5) .. (7.5666666,6) .. controls (7.5666666, 7) and (7.5, 7) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,5) and (7.4,5) .. (7.4,6) .. controls (7.4, 7) and (3.5, 7) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,5) and (7.44,5) .. (7.44,6) .. controls (7.44, 7) and (4.5, 7) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,5) and (7.48,5) .. (7.48,6) .. controls (7.48, 7) and (5.5, 7) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,5) and (7.52,5) .. (7.52,6) .. controls (7.52, 7) and (6.5, 7) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,4) .. controls (7.5,5) and (7.56,5) .. (7.56,6) .. controls (7.56, 7) and (7.5, 7) .. (7.5, 8);
+
+	\draw[line cap=rect] (0,6) -- (\linewidth-\pgflinewidth,6);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,black] (0,6) .. controls (0,7) and (0,7) .. (0,8);
+	\draw[thick,black] (1,6) .. controls (1,7) and (1,7) .. (1,8);
+	\draw[thick,black] (2,6) .. controls (2,7) and (2,7) .. (2,8);
+	\draw[thick,black] (3,6) .. controls (3,7) and (4,7) .. (4,8);
+	\draw[thick,black] (4,6) .. controls (4,7) and (3,7) .. (3,8);
+	\draw[thick,black] (5,6) .. controls (5,7) and (5,7) .. (5,8);
+	\draw[thick,black] (6,6) .. controls (6,7) and (6,7) .. (6,8);
+	\draw[thick,black] (7,6) .. controls (7,7) and (7,7) .. (7,8);
+
+\end{tikzpicture}
+\vfill
+
+\begin{tikzpicture}[y=-1cm]
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[thick,black] (0,0) .. controls (0,2) and (1,2) .. (1,4);
+	\draw[thick,black] (1,0) .. controls (1,2) and (0,2) .. (0,4);
+	\draw[thick,black] (2,0) .. controls (2,2) and (3,2) .. (3,4);
+	\draw[thick,black] (3,0) .. controls (3,2) and (2,2) .. (2,4);
+	\draw[thick,black] (4,0) .. controls (4,2) and (6,2) .. (6,4);
+	\draw[thick,black] (5,0) .. controls (5,2) and (4,2) .. (4,4);
+	\draw[thick,black] (6,0) .. controls (6,2) and (5,2) .. (5,4);
+	\draw[thick,black] (7,0) .. controls (7,2) and (7,2) .. (7,4);
+
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (-0.6,2) .. (-0.6,4) .. controls (-0.6, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (0.42222223,2) .. (0.42222223,4) .. controls (0.42222223, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (1.4444444,2) .. (1.4444444,4) .. controls (1.4444444, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (2.4666667,2) .. (2.4666667,4) .. controls (2.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (2.488889,2) .. (2.488889,4) .. controls (2.488889, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (3.511111,2) .. (3.511111,4) .. controls (3.511111, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (3.5333333,2) .. (3.5333333,4) .. controls (3.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (3.5555556,2) .. (3.5555556,4) .. controls (3.5555556, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (-0.5,0) .. controls (-0.5,2) and (3.5777779,2) .. (3.5777779,4) .. controls (3.5777779, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (-0.6,2) .. (-0.6,4) .. controls (-0.6, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (1.4222223,2) .. (1.4222223,4) .. controls (1.4222223, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (1.4444444,2) .. (1.4444444,4) .. controls (1.4444444, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (2.4666667,2) .. (2.4666667,4) .. controls (2.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (2.488889,2) .. (2.488889,4) .. controls (2.488889, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (4.5111113,2) .. (4.5111113,4) .. controls (4.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (4.5333333,2) .. (4.5333333,4) .. controls (4.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (4.5555553,2) .. (4.5555553,4) .. controls (4.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (0.5,0) .. controls (0.5,2) and (4.577778,2) .. (4.577778,4) .. controls (4.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (1.4,2) .. (1.4,4) .. controls (1.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (1.4222223,2) .. (1.4222223,4) .. controls (1.4222223, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (1.4444444,2) .. (1.4444444,4) .. controls (1.4444444, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (2.4666667,2) .. (2.4666667,4) .. controls (2.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (2.488889,2) .. (2.488889,4) .. controls (2.488889, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (4.5111113,2) .. (4.5111113,4) .. controls (4.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (4.5333333,2) .. (4.5333333,4) .. controls (4.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (5.5555553,2) .. (5.5555553,4) .. controls (5.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (1.5,0) .. controls (1.5,2) and (5.577778,2) .. (5.577778,4) .. controls (5.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (1.4,2) .. (1.4,4) .. controls (1.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (1.4222223,2) .. (1.4222223,4) .. controls (1.4222223, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (1.4444444,2) .. (1.4444444,4) .. controls (1.4444444, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (3.4666667,2) .. (3.4666667,4) .. controls (3.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (4.4888887,2) .. (4.4888887,4) .. controls (4.4888887, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (4.5111113,2) .. (4.5111113,4) .. controls (4.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (4.5333333,2) .. (4.5333333,4) .. controls (4.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (6.5555553,2) .. (6.5555553,4) .. controls (6.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,red,draw opacity=0.1] (2.5,0) .. controls (2.5,2) and (6.577778,2) .. (6.577778,4) .. controls (6.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (3.4,2) .. (3.4,4) .. controls (3.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (3.4222221,2) .. (3.4222221,4) .. controls (3.4222221, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (3.4444444,2) .. (3.4444444,4) .. controls (3.4444444, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (3.4666667,2) .. (3.4666667,4) .. controls (3.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (4.4888887,2) .. (4.4888887,4) .. controls (4.4888887, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (4.5111113,2) .. (4.5111113,4) .. controls (4.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (4.5333333,2) .. (4.5333333,4) .. controls (4.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (6.5555553,2) .. (6.5555553,4) .. controls (6.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (3.5,0) .. controls (3.5,2) and (7.577778,2) .. (7.577778,4) .. controls (7.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (3.4,2) .. (3.4,4) .. controls (3.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (3.4222221,2) .. (3.4222221,4) .. controls (3.4222221, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (3.4444444,2) .. (3.4444444,4) .. controls (3.4444444, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (3.4666667,2) .. (3.4666667,4) .. controls (3.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (4.4888887,2) .. (4.4888887,4) .. controls (4.4888887, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (4.5111113,2) .. (4.5111113,4) .. controls (4.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (4.5333333,2) .. (4.5333333,4) .. controls (4.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (6.5555553,2) .. (6.5555553,4) .. controls (6.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (4.5,0) .. controls (4.5,2) and (7.577778,2) .. (7.577778,4) .. controls (7.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.4,2) .. (4.4,4) .. controls (4.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.422222,2) .. (4.422222,4) .. controls (4.422222, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.4444447,2) .. (4.4444447,4) .. controls (4.4444447, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.4666667,2) .. (4.4666667,4) .. controls (4.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.4888887,2) .. (4.4888887,4) .. controls (4.4888887, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.5111113,2) .. (4.5111113,4) .. controls (4.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (4.5333333,2) .. (4.5333333,4) .. controls (4.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (6.5555553,2) .. (6.5555553,4) .. controls (6.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (5.5,0) .. controls (5.5,2) and (7.577778,2) .. (7.577778,4) .. controls (7.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.4,2) .. (6.4,4) .. controls (6.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.422222,2) .. (6.422222,4) .. controls (6.422222, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.4444447,2) .. (6.4444447,4) .. controls (6.4444447, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.4666667,2) .. (6.4666667,4) .. controls (6.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.4888887,2) .. (6.4888887,4) .. controls (6.4888887, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.5111113,2) .. (6.5111113,4) .. controls (6.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.5333333,2) .. (6.5333333,4) .. controls (6.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (6.5555553,2) .. (6.5555553,4) .. controls (6.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (6.5,0) .. controls (6.5,2) and (7.577778,2) .. (7.577778,4) .. controls (7.577778, 6) and (7.5, 6) .. (7.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.4,2) .. (7.4,4) .. controls (7.4, 6) and (-0.5, 6) .. (-0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.422222,2) .. (7.422222,4) .. controls (7.422222, 6) and (0.5, 6) .. (0.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.4444447,2) .. (7.4444447,4) .. controls (7.4444447, 6) and (1.5, 6) .. (1.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.4666667,2) .. (7.4666667,4) .. controls (7.4666667, 6) and (2.5, 6) .. (2.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.4888887,2) .. (7.4888887,4) .. controls (7.4888887, 6) and (3.5, 6) .. (3.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.5111113,2) .. (7.5111113,4) .. controls (7.5111113, 6) and (4.5, 6) .. (4.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.5333333,2) .. (7.5333333,4) .. controls (7.5333333, 6) and (5.5, 6) .. (5.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.5555553,2) .. (7.5555553,4) .. controls (7.5555553, 6) and (6.5, 6) .. (6.5, 8);
+	\draw[thick,green,draw opacity=0.1] (7.5,0) .. controls (7.5,2) and (7.577778,2) .. (7.577778,4) .. controls (7.577778, 6) and (7.5, 6) .. (7.5, 8);
+
+	\draw[line cap=rect] (0,4) -- (\linewidth-\pgflinewidth,4);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,black] (0,4) .. controls (0,6) and (0,6) .. (0,8);
+	\draw[thick,black] (1,4) .. controls (1,6) and (1,6) .. (1,8);
+	\draw[thick,black] (2,4) .. controls (2,6) and (2,6) .. (2,8);
+	\draw[thick,black] (3,4) .. controls (3,6) and (4,6) .. (4,8);
+	\draw[thick,black] (4,4) .. controls (4,6) and (3,6) .. (3,8);
+	\draw[thick,black] (5,4) .. controls (5,6) and (6,6) .. (6,8);
+	\draw[thick,black] (6,4) .. controls (6,6) and (5,6) .. (5,8);
+	\draw[thick,black] (7,4) .. controls (7,6) and (7,6) .. (7,8);
+
+\end{tikzpicture}
+\vfill
+
+\begin{tikzpicture}[y=-1cm]
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,8) -- (\linewidth-\pgflinewidth,8);	\draw[thick,black] (0,0) .. controls (0,4) and (1,4) .. (1,8);
+	\draw[thick,black] (1,0) .. controls (1,4) and (0,4) .. (0,8);
+	\draw[thick,black] (2,0) .. controls (2,4) and (4,4) .. (4,8);
+	\draw[thick,black] (3,0) .. controls (3,4) and (2,4) .. (2,8);
+	\draw[thick,black] (4,0) .. controls (4,4) and (6,4) .. (6,8);
+	\draw[thick,black] (5,0) .. controls (5,4) and (3,4) .. (3,8);
+	\draw[thick,black] (6,0) .. controls (6,4) and (5,4) .. (5,8);
+	\draw[thick,black] (7,0) .. controls (7,4) and (7,4) .. (7,8);
+
+\end{tikzpicture}
+\vfill
+
+\begin{tikzpicture}[y=-1cm]
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,16) -- (\linewidth-\pgflinewidth,16);
+	\draw[line cap=rect] (0,0) -- (\linewidth-\pgflinewidth,0);	\draw[line cap=rect] (0,32) -- (\linewidth-\pgflinewidth,32);
+\end{tikzpicture}
+\vfill
+
+
+thread 'local_lcs::tests::sample' panicked at src/local_lcs/global.rs:327:44:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    local_lcs::tests::sample
+
+test result: FAILED. 4 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.86s
+

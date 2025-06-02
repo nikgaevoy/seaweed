@@ -18,6 +18,8 @@ use core::ops::Range;
 use core::ops::RangeBounds;
 
 use crate::Permutation;
+#[cfg(test)]
+use crate::TikzPicture;
 use alloc::vec;
 use alloc::vec::Vec;
 use jellyfish::Arm;
@@ -84,16 +86,16 @@ impl GlobalDistanceOracle {
 
         #[cfg(test)]
         {
-            dbg!(ax, ay);
-            dbg!(bx, by);
+            // dbg!(ax, ay);
+            // dbg!(bx, by);
         }
 
         for s in strips {
             let w = self.next_waypoint(s, x, (bx, by));
             #[cfg(test)]
             {
-                dbg!(s, w);
-                dbg!(&self.local[s].height());
+                // dbg!(s, w);
+                // dbg!(&self.local[s].height());
                 // dbg!(&self.jellyfishes[s][x]);
             }
             ans += self.local[s].ask(x, w);
@@ -162,7 +164,14 @@ impl GlobalDistanceOracle {
                 if i == 0 {
                     Default::default()
                 } else {
-                    RWArray::new(perms[2 * i].2, &perms[2 * i].1, &perms[2 * i + 1].0)
+                    let ans = RWArray::new(perms[2 * i].2, &perms[2 * i].1, &perms[2 * i + 1].0);
+
+                    #[cfg(test)]
+                    if perms[2 * i].2 == 2 {
+                        dbg!(&perms[2 * i], &perms[2 * i + 1], &ans);
+                    }
+
+                    ans
                 }
             })
             .collect()
@@ -176,6 +185,36 @@ impl GlobalDistanceOracle {
         let perms = Self::build_permutations(w, antidiagonals);
         let local = Self::build_local(&perms);
         let rw = Self::build_rw(&perms);
+
+        #[cfg(test)]
+        {
+            let mut l = rw.len();
+            let mut r = perms.len();
+            let mut step = 1;
+
+            while l < r {
+                let mut pic = TikzPicture::new();
+
+                let mut pos = 0;
+
+                for t in l..r {
+                    let top = pos as f32;
+                    let bot = (pos + step) as f32;
+                    pic.draw(&perms[t].0, top, bot, "black");
+                    if t % 2 == 0 {
+                        pic.draw(&rw[t / 2], top, (pos + 2 * step) as f32, "green");
+                    }
+                    pos += step;
+                }
+
+                l /= 2;
+                r /= 2;
+                step *= 2;
+
+                extern crate std;
+                std::eprintln!("{}", pic.to_string());
+            }
+        }
 
         let len = rw.len();
 
@@ -191,7 +230,18 @@ impl GlobalDistanceOracle {
     }
 
     pub fn new<T: Eq>(a: &[T], b: &[T]) -> Self {
-        Self::build_naive(a, b)
+        Self::build_seminaive(a, b)
+    }
+
+    fn build_seminaive<T: Eq>(a: &[T], b: &[T]) -> Self {
+        let mut ans = Self::build_naive(a, b);
+
+        for j in ans.jellyfishes.iter_mut().flatten().rev() {
+            j.check_consistency(&ans.rw);
+            j.retain_canonical_landmarks();
+        }
+
+        ans
     }
 
     fn build_naive<T: Eq>(a: &[T], b: &[T]) -> Self {
@@ -291,6 +341,15 @@ impl GlobalDistanceOracle {
                 self.jellyfishes[body] = Vec::with_capacity(self.local[body].len());
 
                 for x in 0..self.local[body].len() {
+                    let head = (x, shoulder_row - h);
+
+                    if head == (2, 2) {
+                        #[cfg(test)]
+                        {
+                            dbg!("here");
+                        }
+                    }
+
                     let mut shoulders = Vec::with_capacity(h + 1);
 
                     let dist = self.local[body].distances_from(x);
@@ -322,7 +381,7 @@ impl GlobalDistanceOracle {
                         }
                     }
 
-                    self.jellyfishes[body].push(Jellyfish::new(arms));
+                    self.jellyfishes[body].push(Jellyfish::new(head, arms));
                 }
 
                 if body % 2 == 0 {

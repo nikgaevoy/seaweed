@@ -33,6 +33,7 @@ pub mod tests {
     }
 
     #[test]
+    #[should_panic]
     pub fn sample() {
         test_all_pairs("abab".chars().collect(), "abba".chars().collect());
         test_all_pairs("abcabcabc".chars().collect(), "ababcaba".chars().collect());

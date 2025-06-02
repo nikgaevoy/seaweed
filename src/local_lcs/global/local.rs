@@ -1,8 +1,14 @@
 extern crate alloc;
 
 use crate::Permutation;
+
 use alloc::vec;
 use alloc::vec::Vec;
+
+#[cfg(test)]
+use crate::TikzDrawable;
+#[cfg(test)]
+use alloc::format;
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct LocalDistanceOracle {
@@ -64,7 +70,7 @@ impl RWArray {
 
         let n = a_inv.len();
 
-        let rw: Vec<Vec<usize>> = (0..n)
+        let rw: Vec<Vec<usize>> = (0..=n)
             .map(|x| {
                 let mid = x.saturating_sub(h)..n.min(x + h);
                 let mut bot = mid.start.saturating_sub(h)..n.min(mid.end + h) + 1;
@@ -75,7 +81,7 @@ impl RWArray {
 
                 for i in mid {
                     if a_inv[i] >= x {
-                        while bot.start < b[i] {
+                        while bot.start <= b[i] {
                             ans[bot.next().unwrap() - shift] = i;
                         }
                     }
@@ -103,5 +109,36 @@ impl RWArray {
     #[allow(dead_code)]
     pub fn len(&self) -> usize {
         self.rw.len()
+    }
+}
+
+#[cfg(test)]
+use alloc::string::String;
+
+#[cfg(test)]
+impl TikzDrawable for RWArray {
+    fn draw(&self, top: f32, bot: f32, color: &str) -> String {
+        let mut ans = String::new();
+
+        let mid = (top + bot) / 2.;
+        let ctop = (top + mid) / 2.;
+        let cbot = (bot + mid) / 2.;
+
+        for i in 0..self.len() {
+            let s = self.start(i);
+
+            for j in 0..self.rw[i].len() {
+                let color = if i == 3 { "red" } else { color };
+
+                let a = i as f32 - 0.5;
+                let b = self.rw[i][j] as f32 - 0.5
+                    + ((2 * j) as f32 - self.rw[i].len() as f32) / (10 * self.rw[i].len()) as f32;
+                let c = (s + j) as f32 - 0.5;
+
+                ans += &format!("\t\\draw[thick,{color},draw opacity=0.1] ({a},{top}) .. controls ({a},{ctop}) and ({b},{ctop}) .. ({b},{mid}) .. controls ({b}, {cbot}) and ({c}, {cbot}) .. ({c}, {bot});\n");
+            }
+        }
+
+        ans
     }
 }

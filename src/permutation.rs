@@ -1,11 +1,13 @@
 extern crate alloc;
 
-use alloc::vec;
 use alloc::vec::Vec;
+use alloc::{format, vec};
 use core::iter::{FromIterator, IntoIterator};
 use core::mem::replace;
 use core::ops::{Add, AddAssign, Index, Mul, MulAssign};
 use core::slice::Iter;
+
+use crate::TikzDrawable;
 
 use self::recursive_steady_ant::recursive_steady_ant;
 use self::steady_ant::steady_ant;
@@ -25,6 +27,22 @@ impl Index<usize> for Permutation {
 
     fn index(&self, index: usize) -> &Self::Output {
         &self.perm[index]
+    }
+}
+
+impl TikzDrawable for Permutation {
+    fn draw(&self, top: f32, bot: f32, color: &str) -> alloc::string::String {
+        let mid = (top + bot) / 2.;
+
+        let mut ans = alloc::string::String::new();
+
+        for i in 0..self.len() {
+            let j = self.perm[i];
+
+            ans += &format!("\t\\draw[thick,{color}] ({i},{top}) .. controls ({i},{mid}) and ({j},{mid}) .. ({j},{bot});\n");
+        }
+
+        ans
     }
 }
 
@@ -128,9 +146,9 @@ impl Permutation {
     }
 
     /// Performs relative combing of `self` to `other`.
-    /// Equivalent to `other.recip() * (self + other)`.
+    /// Equivalent to `other.recip() * (other + self)`.
     pub fn relative_combing(&self, other: &Self) -> Self {
-        other.recip() * (self + other)
+        other.recip() * (other + self)
     }
 }
 
